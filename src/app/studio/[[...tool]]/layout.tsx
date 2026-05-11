@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 
-export const dynamic = 'force-static';
+/** Embedded Sanity Studio must not SSR: it touches `window` during init. */
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Studio',
