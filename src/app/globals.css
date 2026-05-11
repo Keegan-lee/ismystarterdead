@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Inter:wght@400;500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-serif: 'Merriweather', serif;
+  --font-sans: 'Inter', sans-serif;
+}
+
+body {
+  background-color: #fdf8f2;
+  color: #1f1f1f;
+  font-family: var(--font-sans);
+}
+
+.grain-bg {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+.btn-primary {
+  @apply bg-umber text-flour px-6 py-3 rounded-lg font-semibold hover:bg-beaver transition-colors duration-200 text-sm tracking-wide;
+}
+
+.btn-secondary {
+  @apply border border-umber text-umber px-6 py-3 rounded-lg font-semibold hover:bg-dough transition-colors duration-200 text-sm tracking-wide;
+}
+
+.answer-btn {
+  @apply w-full text-left px-5 py-4 rounded-xl border-2 border-dough bg-flour hover:border-crust hover:bg-crumb transition-all duration-200 font-sans text-blackish text-sm leading-snug;
+}
+
+.answer-btn.selected {
+  @apply border-umber bg-dough;
+}
+
+.card {
+  @apply bg-flour rounded-2xl shadow-sm border border-dough p-6;
+}
