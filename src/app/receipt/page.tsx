@@ -7,6 +7,10 @@ export const metadata: Metadata = {
   title: 'Receipt',
   description:
     'Confirm your payment status and access your Stripe receipt. Your digital product is delivered by email after successful payment.',
+  robots: {
+    index: false,
+    follow: false,
+  },
   openGraph: {
     title: 'Receipt',
     description: 'Confirm payment status and access your Stripe receipt.',
