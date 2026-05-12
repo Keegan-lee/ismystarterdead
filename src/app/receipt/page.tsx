@@ -78,7 +78,7 @@ export default async function ReceiptPage({ searchParams }: { searchParams: Prom
     <div className="min-h-screen bg-flour">
       <nav className="flex items-center justify-between px-6 py-4 border-b border-dough">
         <Link href="/" className="font-serif font-bold text-blackish text-sm">
-          🫙 IsMyStarterDead
+          🫙 Is My Starter Dead
         </Link>
         <div className="flex items-center gap-4 text-xs text-beaver">
           <Link href="/gallery" className="hover:text-umber transition-colors">

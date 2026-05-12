@@ -21,7 +21,7 @@ export interface ISendProductDeliveryEmailArgs {
 
 function getFromEmail(): string {
   // Keep this predictable; you can override by setting RESEND_FROM_EMAIL in Doppler.
-  return process.env.RESEND_FROM_EMAIL || 'm@palwefrancis.com';
+  return process.env.RESEND_FROM_EMAIL || 'Mrugakshee from IsMyStarterDead <m@palwefrancis.com>';
 }
 
 export async function sendProductDeliveryEmail(args: ISendProductDeliveryEmailArgs) {
@@ -32,7 +32,6 @@ export async function sendProductDeliveryEmail(args: ISendProductDeliveryEmailAr
     productDescription: args.productDescription,
     productDisplayPrice: args.productDisplayPrice,
     productImageUrl: args.productImageUrl,
-    supportEmail: 'admin@palwefrancis.com',
     downloadUrl: args.downloadUrl,
   });
 

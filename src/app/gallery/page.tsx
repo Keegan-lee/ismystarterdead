@@ -68,7 +68,7 @@ export default function GalleryPage() {
           <h3 className="font-serif font-bold text-blackish mb-1">Submit your starter photo</h3>
           <p className="text-xs text-beaver mb-4">Help other bakers by sharing what your starter looks like — healthy or not. Community submissions are reviewed before posting.</p>
           <a
-            href="mailto:hello@ismystarterdead.com?subject=Gallery Submission"
+            href="mailto:support@palwefrancis.com?subject=Gallery Submission"
             className="btn-primary text-xs inline-block"
           >
             Submit via Email →
