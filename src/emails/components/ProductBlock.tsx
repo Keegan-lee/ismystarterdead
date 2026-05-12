@@ -22,7 +22,7 @@ export function ProductBlock({ title, description, displayPrice, imageUrl }: IPr
       <Text style={{ margin: '12px 0 0', fontSize: 16, fontWeight: 700, color: '#1f1f1f' }}>{title}</Text>
       <Text style={{ margin: '6px 0 0', fontSize: 13, lineHeight: '20px', color: '#6f5e53' }}>{description}</Text>
       <Text style={{ margin: '10px 0 0', fontSize: 13, fontWeight: 700, color: '#1f1f1f' }}>
-        {displayPrice}
+        ${displayPrice}
       </Text>
     </Section>
   );

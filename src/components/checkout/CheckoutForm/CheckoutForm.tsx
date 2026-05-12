@@ -61,22 +61,26 @@ function CheckoutFormInner({ onPaymentSucceeded }: Pick<ICheckoutFormProps, 'onP
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <PaymentElement />
+    <form onSubmit={handleSubmit} className="flex min-h-0 flex-col">
+      <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pb-5 pr-1">
+        <PaymentElement />
 
-      {error ? (
-        <p className="text-xs text-dead" role="alert">
-          {error}
+        {error ? (
+          <p className="text-xs text-dead" role="alert">
+            {error}
+          </p>
+        ) : null}
+      </div>
+
+      <div className="sticky bottom-0 -mx-5 mt-4 border-t border-dough bg-crumb/95 px-5 pb-5 pt-4 backdrop-blur supports-[backdrop-filter]:bg-crumb/80">
+        <button type="submit" className="btn-primary w-full text-sm" disabled={!stripe || isSubmitting}>
+          {isSubmitting ? 'Processing…' : 'Pay now'}
+        </button>
+
+        <p className="mt-3 text-[11px] leading-relaxed text-beaver">
+          By paying, you’ll receive the digital asset by email after payment is confirmed.
         </p>
-      ) : null}
-
-      <button type="submit" className="btn-primary w-full text-sm" disabled={!stripe || isSubmitting}>
-        {isSubmitting ? 'Processing…' : 'Pay now'}
-      </button>
-
-      <p className="text-[11px] text-beaver leading-relaxed">
-        By paying, you’ll receive the digital asset by email after payment is confirmed.
-      </p>
+      </div>
     </form>
   );
 }

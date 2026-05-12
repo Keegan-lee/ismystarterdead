@@ -53,7 +53,7 @@ export function ProductDeliveryEmail({
 
             {downloadUrl ? (
               <Text style={{ margin: '10px 0 12px', fontSize: 14, lineHeight: '20px', color: '#1f1f1f' }}>
-                Download: <a href={downloadUrl}>{downloadUrl}</a>
+                Download: <a href={downloadUrl}>Download the eBook</a>
               </Text>
             ) : null}
 
