@@ -10,6 +10,7 @@ export interface IProductDeliveryEmailProps {
   productDisplayPrice: string;
   productImageUrl?: string;
   supportEmail?: string;
+  downloadUrl?: string;
 }
 
 export function ProductDeliveryEmail({
@@ -18,7 +19,12 @@ export function ProductDeliveryEmail({
   productDisplayPrice,
   productImageUrl,
   supportEmail,
+  downloadUrl,
 }: IProductDeliveryEmailProps) {
+  const deliveryLine = downloadUrl
+    ? 'Thanks for your purchase. Your download link is below.'
+    : 'Thanks for your purchase. Your file is attached to this email.';
+
   return (
     <Html>
       <Head />
@@ -35,7 +41,7 @@ export function ProductDeliveryEmail({
           >
             <EmailHeader />
             <Text style={{ margin: '0 0 10px', fontSize: 14, lineHeight: '20px', color: '#1f1f1f' }}>
-              Thanks for your purchase. Your file is attached to this email.
+              {deliveryLine}
             </Text>
 
             <ProductBlock
@@ -45,8 +51,14 @@ export function ProductDeliveryEmail({
               imageUrl={productImageUrl}
             />
 
+            {downloadUrl ? (
+              <Text style={{ margin: '10px 0 12px', fontSize: 14, lineHeight: '20px', color: '#1f1f1f' }}>
+                Download: <a href={downloadUrl}>{downloadUrl}</a>
+              </Text>
+            ) : null}
+
             <Text style={{ margin: '0', fontSize: 12, lineHeight: '18px', color: '#8a7968' }}>
-              If you don’t see the attachment, check spam/promotions or reply and we’ll help.
+              If you don’t see it, check spam/promotions or reply and we’ll help.
             </Text>
 
             <EmailFooter supportEmail={supportEmail} />

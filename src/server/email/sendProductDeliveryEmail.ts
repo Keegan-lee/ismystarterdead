@@ -11,11 +11,12 @@ export interface ISendProductDeliveryEmailArgs {
   productDescription: string;
   productDisplayPrice: string;
   productImageUrl?: string;
-  attachment: {
+  attachment?: {
     filename: string;
     mimeType: string;
     buffer: Buffer;
   };
+  downloadUrl?: string;
 }
 
 function getFromEmail(): string {
@@ -32,6 +33,7 @@ export async function sendProductDeliveryEmail(args: ISendProductDeliveryEmailAr
     productDisplayPrice: args.productDisplayPrice,
     productImageUrl: args.productImageUrl,
     supportEmail: 'admin@palwefrancis.com',
+    downloadUrl: args.downloadUrl,
   });
 
   const html = await render(react);
@@ -41,13 +43,15 @@ export async function sendProductDeliveryEmail(args: ISendProductDeliveryEmailAr
     to: args.to,
     subject: `Your purchase: ${args.productTitle}`,
     html,
-    attachments: [
-      {
-        filename: args.attachment.filename,
-        content: args.attachment.buffer.toString('base64'),
-        contentType: args.attachment.mimeType,
-      },
-    ],
+    attachments: args.attachment
+      ? [
+          {
+            filename: args.attachment.filename,
+            content: args.attachment.buffer.toString('base64'),
+            contentType: args.attachment.mimeType,
+          },
+        ]
+      : undefined,
   });
 }
 
