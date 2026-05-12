@@ -33,24 +33,6 @@ function getReceiptUrlFromPaymentIntent(pi: import('stripe').Stripe.PaymentInten
   return latestCharge?.receipt_url ?? null;
 }
 
-function ReceiptSiteNav() {
-  return (
-    <nav className="flex shrink-0 items-center justify-between px-6 py-4 border-b border-dough">
-      <Link href="/" className="font-serif font-bold text-blackish text-sm">
-        🫙 Is My Starter Dead?
-      </Link>
-      <div className="flex items-center gap-4 text-xs text-beaver">
-        <Link href="/gallery" className="hover:text-umber transition-colors">
-          Gallery
-        </Link>
-        <Link href="/discard-recipes" className="hover:text-umber transition-colors">
-          Recipes
-        </Link>
-      </div>
-    </nav>
-  );
-}
-
 type TReceiptHeroCopy = {
   headline: string;
   supporting: string;
@@ -98,9 +80,8 @@ export default async function ReceiptPage({ searchParams }: { searchParams: Prom
 
   if (!paymentIntentId) {
     return (
-      <div className="min-h-screen bg-flour flex flex-col">
-        <ReceiptSiteNav />
-        <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 py-10 sm:py-14">
+      <div className="flex flex-1 flex-col">
+        <div className="flex flex-1 flex-col items-center justify-center px-4 py-10 sm:px-6 sm:py-14">
           <div className="max-w-md w-full text-center animate-fade-in">
             <h1 className="font-serif text-3xl sm:text-4xl font-bold text-blackish leading-tight">
               We need a valid receipt link
@@ -132,11 +113,10 @@ export default async function ReceiptPage({ searchParams }: { searchParams: Prom
   const showCelebration = status === 'succeeded';
 
   return (
-    <div className="min-h-screen bg-flour flex flex-col">
+    <div className="relative flex flex-1 flex-col">
       <ReceiptConfetti enabled={showCelebration} />
-      <ReceiptSiteNav />
 
-      <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 py-10 sm:py-14">
+      <div className="flex flex-1 flex-col items-center justify-center px-4 py-10 sm:px-6 sm:py-14">
         <div className="max-w-md w-full text-center animate-fade-in space-y-6">
           <header className="space-y-4">
             <h1 className="font-serif text-3xl sm:text-4xl font-bold text-blackish leading-tight">{headline}</h1>

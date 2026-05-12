@@ -95,7 +95,8 @@ export async function POST(req: Request) {
 
     const productTitle = fresh.metadata?.sanityProductTitle || 'Your purchase';
     const productDescription = fresh.metadata?.sanityProductDescription || 'Your file is attached to this email.';
-    const productDisplayPrice = fresh.metadata?.sanityProductDisplayPrice || '';
+    const productPriceLabel =
+      fresh.metadata?.productPriceLabel || fresh.metadata?.sanityProductDisplayPrice || '';
     const productImageUrl = fresh.metadata?.sanityProductImageUrl || undefined;
 
     if (!assetUrl || !assetFilename || !assetMimeType) {
@@ -120,7 +121,7 @@ export async function POST(req: Request) {
       to: buyerEmail,
       productTitle,
       productDescription,
-      productDisplayPrice,
+      productPriceLabel,
       productImageUrl,
       downloadUrl: file ? undefined : assetUrl,
       attachment: file

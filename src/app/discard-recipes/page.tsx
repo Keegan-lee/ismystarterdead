@@ -6,6 +6,7 @@ import type { Metadata } from 'next';
 import { ProductCheckoutCta } from '@/components/checkout/ProductCheckoutCta/ProductCheckoutCta';
 import { getProductBySlug } from '@/sanity/lib/queries';
 import { urlForImage } from '@/sanity/lib/image';
+import { formatPriceInCents } from '@/lib/pricing/formatPrice';
 
 const RECIPES = [
   {
@@ -103,16 +104,7 @@ export default async function DiscardRecipesPage() {
     bookProduct?.image?.asset?._ref ? urlForImage(bookProduct.image).width(120).height(120).fit('crop').url() : null;
 
   return (
-    <div className="min-h-screen bg-flour">
-      <nav className="flex items-center justify-between px-6 py-4 border-b border-dough">
-        <Link href="/" className="font-serif font-bold text-blackish text-sm">🫙 IsMyStarterDead</Link>
-        <div className="flex items-center gap-4 text-xs text-beaver">
-          <Link href="/gallery" className="hover:text-umber transition-colors">Gallery</Link>
-          <Link href="/discard-recipes" className="text-umber font-semibold">Recipes</Link>
-        </div>
-      </nav>
-
-      <div className="max-w-2xl mx-auto px-4 py-10">
+    <div className="max-w-2xl mx-auto px-4 py-10">
         <div className="text-center mb-8">
           <h1 className="font-serif text-3xl font-bold text-blackish mb-2">Sourdough Discard Recipes</h1>
           <p className="text-beaver text-sm max-w-md mx-auto">Never throw away discard again. These recipes are tested, simple, and delicious — even if your starter is not at peak activity.</p>
@@ -146,7 +138,10 @@ export default async function DiscardRecipesPage() {
             </p>
 
             {bookProduct ? (
-              <ProductCheckoutCta product={bookProduct} ctaLabel={`Get the Book — ${bookProduct.displayPrice} →`} />
+              <ProductCheckoutCta
+                product={bookProduct}
+                ctaLabel={`Get the Book — ${formatPriceInCents(bookProduct.priceInCents)} →`}
+              />
             ) : (
               <span className="text-xs text-beaver">
                 Checkout is coming soon.
@@ -201,15 +196,6 @@ export default async function DiscardRecipesPage() {
             ← Check if your starter is alive
           </Link>
         </div>
-      </div>
-
-      <footer className="border-t border-dough px-6 py-4 flex items-center justify-between text-[11px] text-beaver mt-8">
-        <span>© 2025 IsMyStarterDead.com</span>
-        <div className="flex gap-4">
-          <Link href="/gallery" className="hover:text-umber transition-colors">Gallery</Link>
-          <Link href="/discard-recipes" className="hover:text-umber transition-colors">Discard Recipes</Link>
-        </div>
-      </footer>
     </div>
   );
 }

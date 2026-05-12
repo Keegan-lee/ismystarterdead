@@ -8,16 +8,21 @@ import { Elements, PaymentElement, useElements, useStripe } from '@stripe/react-
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
 
+export type TCheckoutSuccess =
+  | { kind: 'paid'; paymentIntentId: string }
+  | { kind: 'free' };
+
 export interface ICheckoutFormProps {
   productId: string;
-  onPaymentSucceeded: (paymentIntentId: string) => void;
+  priceInCents: number;
+  onSucceeded: (result: TCheckoutSuccess) => void;
 }
 
 interface ICreatePaymentIntentResponse {
   clientSecret: string;
 }
 
-function CheckoutFormInner({ onPaymentSucceeded }: Pick<ICheckoutFormProps, 'onPaymentSucceeded'>) {
+function StripePaymentInner({ onPaymentSucceeded }: { onPaymentSucceeded: (paymentIntentId: string) => void }) {
   const stripe = useStripe();
   const elements = useElements();
   const router = useRouter();
@@ -61,8 +66,8 @@ function CheckoutFormInner({ onPaymentSucceeded }: Pick<ICheckoutFormProps, 'onP
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex min-h-0 flex-col">
-      <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pb-5 pr-1">
+    <form onSubmit={handleSubmit} className="flex flex-col">
+      <div className="space-y-4 pr-1">
         <PaymentElement />
 
         {error ? (
@@ -85,7 +90,83 @@ function CheckoutFormInner({ onPaymentSucceeded }: Pick<ICheckoutFormProps, 'onP
   );
 }
 
-export function CheckoutForm({ productId, onPaymentSucceeded }: ICheckoutFormProps) {
+function FreeClaimForm({
+  productId,
+  email,
+  setEmail,
+  onSucceeded,
+}: {
+  productId: string;
+  email: string;
+  setEmail: (next: string) => void;
+  onSucceeded: () => void;
+}) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setError(null);
+
+    if (!email.trim()) {
+      setError('Please enter your email so we can send the file.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const res = await fetch('/api/products/claim-free', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productId, email }),
+      });
+      if (!res.ok) {
+        const data = (await res.json().catch(() => ({}))) as { error?: string };
+        throw new Error(data?.error || 'Could not send your file. Please try again.');
+      }
+      onSucceeded();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not send your file. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-3">
+      <label className="block">
+        <span className="text-[11px] font-semibold text-beaver uppercase tracking-wider">Email for delivery</span>
+        <input
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          type="email"
+          required
+          placeholder="you@example.com"
+          className="mt-1 w-full rounded-xl border border-dough bg-flour px-3 py-2 text-sm text-blackish placeholder:text-beaver/70 focus:outline-none focus:ring-2 focus:ring-crust"
+          autoComplete="email"
+        />
+      </label>
+
+      {error ? (
+        <p className="text-xs text-dead" role="alert">
+          {error}
+        </p>
+      ) : null}
+
+      <button type="submit" className="btn-primary w-full text-sm" disabled={isSubmitting}>
+        {isSubmitting ? 'Sending…' : 'Get it free →'}
+      </button>
+
+      <p className="text-[11px] leading-relaxed text-beaver">
+        We’ll email your file right away. No account or payment required.
+      </p>
+    </form>
+  );
+}
+
+export function CheckoutForm({ productId, priceInCents, onSucceeded }: ICheckoutFormProps) {
+  const isFree = priceInCents <= 0;
+
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -134,6 +215,17 @@ export function CheckoutForm({ productId, onPaymentSucceeded }: ICheckoutFormPro
     );
   }
 
+  if (isFree) {
+    return (
+      <FreeClaimForm
+        productId={productId}
+        email={email}
+        setEmail={setEmail}
+        onSucceeded={() => onSucceeded({ kind: 'free' })}
+      />
+    );
+  }
+
   return (
     <div className="space-y-3">
       <label className="block">
@@ -159,10 +251,9 @@ export function CheckoutForm({ productId, onPaymentSucceeded }: ICheckoutFormPro
         </button>
       ) : (
         <Elements stripe={stripePromise} options={{ clientSecret, appearance }}>
-          <CheckoutFormInner onPaymentSucceeded={onPaymentSucceeded} />
+          <StripePaymentInner onPaymentSucceeded={(id) => onSucceeded({ kind: 'paid', paymentIntentId: id })} />
         </Elements>
       )}
     </div>
   );
 }
-

@@ -2,6 +2,7 @@ import './globals.css';
 import { Merriweather } from 'next/font/google';
 import type { Metadata } from 'next';
 
+import { SiteChrome } from '@/components/site/SiteChrome';
 import { CANONICAL_ORIGIN } from '@/lib/seo/canonical';
 
 const merriweather = Merriweather({
@@ -31,7 +32,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={merriweather.variable}>
-      <body className="bg-flour text-blackish antialiased">{children}</body>
+      <body className="bg-flour text-blackish antialiased">
+        <SiteChrome>{children}</SiteChrome>
+      </body>
     </html>
   );
 }

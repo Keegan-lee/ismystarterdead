@@ -12,17 +12,23 @@ export interface ISanityFileAssetRef {
   };
 }
 
+export type TProductType = 'book';
+
 export interface IProduct {
   _id: string;
   title: string;
   description: string;
-  stripePriceId: string;
-  displayPrice: string;
+  type: TProductType;
+  priceInCents: number;
+  stripePriceId?: string;
   image: ISanityImageAssetRef;
   asset: ISanityFileAssetRef;
   slug?: { current?: string };
   active?: boolean;
 }
+
+/** Serializable product fields passed from RSC into checkout CTAs. */
+export type TProductCheckoutSummary = Pick<IProduct, '_id' | 'title' | 'description' | 'priceInCents' | 'image'>;
 
 export interface IAffiliateOffer {
   _id: string;
@@ -36,8 +42,9 @@ export interface IProductForCheckout {
   _id: string;
   title: string;
   description: string;
-  displayPrice: string;
-  stripePriceId: string;
+  type: TProductType;
+  priceInCents: number;
+  stripePriceId?: string;
   imageUrl?: string;
   asset: {
     url: string;
@@ -46,4 +53,3 @@ export interface IProductForCheckout {
     size: number;
   };
 }
-

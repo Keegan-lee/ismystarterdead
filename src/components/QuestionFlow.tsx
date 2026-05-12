@@ -40,7 +40,7 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({ onComplete }) => {
   };
 
   return (
-    <div className="min-h-screen bg-flour flex flex-col items-center justify-start pb-16 px-4">
+    <div className="flex flex-1 flex-col items-center justify-start px-4 pb-16 pt-6">
 
       {/* Sticky progress header */}
       <div className="w-full max-w-lg pt-6 pb-4 sticky top-0 bg-flour z-10">

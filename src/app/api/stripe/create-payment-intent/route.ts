@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 
+import { formatStripeAmount } from '@/lib/pricing/formatPrice';
 import { getProductForCheckoutById } from '@/sanity/lib/queries';
 import { getStripe } from '@/server/stripe/getStripe';
 
@@ -23,6 +24,21 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Product not found' }, { status: 404 });
     }
 
+    // Free products use the claim-free flow; never call Stripe without a price id.
+    if (product.priceInCents <= 0) {
+      return NextResponse.json(
+        { error: 'This product is free. Use the claim-free flow.', code: 'use_free_claim' },
+        { status: 400 },
+      );
+    }
+
+    if (!product.stripePriceId) {
+      return NextResponse.json(
+        { error: 'Paid product is missing Stripe price id.' },
+        { status: 500 },
+      );
+    }
+
     const stripe = getStripe();
     const price = await stripe.prices.retrieve(product.stripePriceId);
 
@@ -38,6 +54,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Product is missing deliverable asset.' }, { status: 500 });
     }
 
+    const productPriceLabel = formatStripeAmount(price.unit_amount, price.currency);
+
     const paymentIntent = await stripe.paymentIntents.create({
       amount: price.unit_amount,
       currency: price.currency,
@@ -47,7 +65,7 @@ export async function POST(req: Request) {
         sanityProductId: product._id,
         sanityProductTitle: product.title,
         sanityProductDescription: product.description,
-        sanityProductDisplayPrice: product.displayPrice,
+        productPriceLabel,
         sanityProductImageUrl: product.imageUrl ?? '',
         sanityAssetUrl: product.asset.url,
         sanityAssetFilename: product.asset.originalFilename,
@@ -62,4 +80,3 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-

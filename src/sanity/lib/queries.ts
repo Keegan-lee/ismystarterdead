@@ -7,8 +7,9 @@ const productProjection = groq`{
   _id,
   title,
   description,
+  type,
+  priceInCents,
   stripePriceId,
-  displayPrice,
   image,
   slug,
   active,
@@ -25,6 +26,33 @@ export async function getActiveProducts(): Promise<IProduct[]> {
 export async function getProductBySlug(slug: string): Promise<IProduct | null> {
   return sanityClient.fetch(
     groq`*[_type == "product" && slug.current == $slug][0] ${productProjection}`,
+    { slug },
+    { next: { revalidate: 60 } },
+  );
+}
+
+/** Active products typed as books, ordered by newest first. */
+export async function getBooks(): Promise<IProduct[]> {
+  return sanityClient.fetch(
+    groq`*[
+      _type == "product" &&
+      type == "book" &&
+      (active == true || !defined(active))
+    ] | order(_createdAt desc) ${productProjection}`,
+    {},
+    { next: { revalidate: 60 } },
+  );
+}
+
+/** Active book by slug. Returns null if the slug resolves to a non-book or inactive product. */
+export async function getBookBySlug(slug: string): Promise<IProduct | null> {
+  return sanityClient.fetch(
+    groq`*[
+      _type == "product" &&
+      type == "book" &&
+      (active == true || !defined(active)) &&
+      slug.current == $slug
+    ][0] ${productProjection}`,
     { slug },
     { next: { revalidate: 60 } },
   );
@@ -50,7 +78,8 @@ export async function getProductForCheckoutById(productId: string): Promise<IPro
       _id,
       title,
       description,
-      displayPrice,
+      type,
+      priceInCents,
       stripePriceId,
       "imageUrl": image.asset->url,
       "asset": asset.asset->{
@@ -64,4 +93,3 @@ export async function getProductForCheckoutById(productId: string): Promise<IPro
     { cache: 'no-store' },
   );
 }
-

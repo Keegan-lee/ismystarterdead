@@ -1,5 +1,10 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+
+import { ProductCheckoutCta } from '@/components/checkout/ProductCheckoutCta/ProductCheckoutCta';
+import { formatPriceInCents } from '@/lib/pricing/formatPrice';
+import type { TProductCheckoutSummary } from '@/sanity/lib/types';
+
 import StarterMeter from './StarterMeter';
 
 const SCENARIOS = [
@@ -23,7 +28,17 @@ function useLiveCount(base: number) {
 
 const PREVIEW_SCORES = [-80, -20, 25, 55, 90];
 
-const StartPage: React.FC<{ onStart: () => void; onPhotoStart: () => void }> = ({ onStart, onPhotoStart }) => {
+const FALLBACK_CHEAT_SHEET_TITLE = 'The Sourdough Starter Cheat Sheet';
+const FALLBACK_CHEAT_SHEET_DESCRIPTION =
+  'Quick-reference guide: feeding ratios, signs of life, and what every smell means. Free PDF.';
+
+export interface IStartPageProps {
+  cheatSheetProduct: TProductCheckoutSummary | null;
+  onStart: () => void;
+  onPhotoStart: () => void;
+}
+
+const StartPage: React.FC<IStartPageProps> = ({ cheatSheetProduct, onStart, onPhotoStart }) => {
   const liveCount = useLiveCount(14382);
   const [previewIdx, setPreviewIdx] = useState(2);
 
@@ -35,18 +50,8 @@ const StartPage: React.FC<{ onStart: () => void; onPhotoStart: () => void }> = (
   }, []);
 
   return (
-    <div className="min-h-screen bg-flour flex flex-col">
-      {/* Nav */}
-      <nav className="flex items-center justify-between px-6 py-4 border-b border-dough">
-        <span className="font-serif font-bold text-blackish text-sm">🫙 IsMyStarterDead</span>
-        <div className="flex items-center gap-4 text-xs text-beaver">
-          <a href="/gallery" className="hover:text-umber transition-colors">Gallery</a>
-          <a href="/discard-recipes" className="hover:text-umber transition-colors">Recipes</a>
-        </div>
-      </nav>
-
-      {/* Hero */}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-10 text-center">
+    <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col items-center justify-center px-6 py-10 text-center">
         <div className="max-w-md w-full">
 
           {/* Live social proof badge */}
@@ -108,31 +113,32 @@ const StartPage: React.FC<{ onStart: () => void; onPhotoStart: () => void }> = (
             </div>
           </div>
 
-          {/* Email capture teaser */}
+          {/* Cheat sheet download */}
           <div className="mt-10 card border-dashed border-2 border-crust text-center">
             <p className="text-xs font-semibold text-beaver uppercase tracking-wider mb-1">Free Download</p>
-            <p className="font-serif font-bold text-blackish text-sm mb-1">The Sourdough Starter Cheat Sheet</p>
-            <p className="text-xs text-beaver mb-3">Quick-reference guide: feeding ratios, signs of life, and what every smell means. Free PDF.</p>
-            <a
-              href="https://gumroad.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-secondary text-xs inline-block"
-            >
-              Get the Free Cheat Sheet →
-            </a>
+            <p className="font-serif font-bold text-blackish text-sm mb-1">
+              {cheatSheetProduct?.title ?? FALLBACK_CHEAT_SHEET_TITLE}
+            </p>
+            <p className="text-xs text-beaver mb-3 whitespace-pre-line">
+              {cheatSheetProduct?.description ?? FALLBACK_CHEAT_SHEET_DESCRIPTION}
+            </p>
+            {cheatSheetProduct ? (
+              <div className="flex justify-center">
+                <ProductCheckoutCta
+                  product={cheatSheetProduct}
+                  ctaLabel={
+                    cheatSheetProduct.priceInCents <= 0
+                      ? 'Get the Free Cheat Sheet →'
+                      : `Get the Cheat Sheet — ${formatPriceInCents(cheatSheetProduct.priceInCents)} →`
+                  }
+                />
+              </div>
+            ) : (
+              <span className="text-xs text-beaver">Checkout is coming soon.</span>
+            )}
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="border-t border-dough px-6 py-4 flex items-center justify-between text-[11px] text-beaver">
-        <span>© 2025 IsMyStarterDead.com</span>
-        <div className="flex gap-4">
-          <a href="/gallery" className="hover:text-umber transition-colors">Starter Gallery</a>
-          <a href="/discard-recipes" className="hover:text-umber transition-colors">Discard Recipes</a>
-        </div>
-      </footer>
     </div>
   );
 };

@@ -9,7 +9,7 @@ export interface ISendProductDeliveryEmailArgs {
   to: string;
   productTitle: string;
   productDescription: string;
-  productDisplayPrice: string;
+  productPriceLabel: string;
   productImageUrl?: string;
   attachment?: {
     filename: string;
@@ -30,17 +30,20 @@ export async function sendProductDeliveryEmail(args: ISendProductDeliveryEmailAr
   const react = ProductDeliveryEmail({
     productTitle: args.productTitle,
     productDescription: args.productDescription,
-    productDisplayPrice: args.productDisplayPrice,
+    productPriceLabel: args.productPriceLabel,
     productImageUrl: args.productImageUrl,
     downloadUrl: args.downloadUrl,
   });
 
   const html = await render(react);
 
+  const isFree = args.productPriceLabel.trim().toLowerCase() === 'free';
+  const subject = isFree ? `Your free file: ${args.productTitle}` : `Your purchase: ${args.productTitle}`;
+
   return resend.emails.send({
     from: getFromEmail(),
     to: args.to,
-    subject: `Your purchase: ${args.productTitle}`,
+    subject,
     html,
     attachments: args.attachment
       ? [
@@ -53,4 +56,3 @@ export async function sendProductDeliveryEmail(args: ISendProductDeliveryEmailAr
       : undefined,
   });
 }
-

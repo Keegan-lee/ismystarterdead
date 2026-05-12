@@ -41,7 +41,7 @@ const ImageUploadFlow: React.FC<ImageUploadFlowProps> = ({ onComplete, onFallbac
   }, [status, stepIdx, onFallbackToQuestions]);
 
   return (
-    <div className="min-h-screen bg-flour flex flex-col items-center justify-center px-4 py-12">
+    <div className="flex flex-1 flex-col items-center justify-center px-4 py-12">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="text-4xl mb-3">📷</div>

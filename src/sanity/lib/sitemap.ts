@@ -10,16 +10,41 @@ export type TSanitySitemapEntry = {
 };
 
 /**
- * Seam for future sitemap expansion.
+ * Aggregates indexable sitemap entries sourced from Sanity content.
  *
- * This repo currently has no indexable dynamic routes (e.g. `/products/[slug]`),
- * so this function intentionally returns an empty list until such routes exist.
+ * Currently surfaces `/books/{slug}` for active books with a published slug.
  */
 export async function getIndexableSanitySitemapEntries(): Promise<TSanitySitemapEntry[]> {
-  // NOTE: Enable once an indexable dynamic route exists (e.g. /products/[slug]).
-  return [];
+  return getIndexableBookEntries();
 }
 
+/** Active books surfaced at `/books/{slug}`. Excludes drafts and inactive entries. */
+export async function getIndexableBookEntries(): Promise<TSanitySitemapEntry[]> {
+  const rows = await sanityClient.fetch(
+    groq`*[
+      _type == "product" &&
+      type == "book" &&
+      defined(slug.current) &&
+      (active == true || !defined(active)) &&
+      !(_id in path("drafts.**"))
+    ]{
+      "slug": slug.current,
+      "updatedAt": _updatedAt
+    }`,
+    {},
+    { next: { revalidate: 300 } },
+  );
+
+  return (rows as Array<{ slug?: string; updatedAt?: string }>).flatMap((row) => {
+    if (!row.slug || !row.updatedAt) return [];
+    return [{ pathname: `/books/${row.slug}`, updatedAt: row.updatedAt }];
+  });
+}
+
+/**
+ * Legacy seam: `/products/{slug}` is not currently a routed page. Kept for callers
+ * that may still expect this signature; prefer `getIndexableBookEntries`.
+ */
 export async function getIndexableProductEntries(): Promise<TSanitySitemapEntry[]> {
   const rows = await sanityClient.fetch(
     groq`*[
@@ -40,4 +65,3 @@ export async function getIndexableProductEntries(): Promise<TSanitySitemapEntry[
     return [{ pathname: `/products/${row.slug}`, updatedAt: row.updatedAt }];
   });
 }
-

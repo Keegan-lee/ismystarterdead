@@ -1,53 +1,20 @@
-'use client';
-import React, { useState } from 'react';
-import StartPage from '@/components/StartPage';
-import QuestionFlow from '@/components/QuestionFlow';
-import ImageUploadFlow from '@/components/ImageUploadFlow';
-import ResultScreen from '@/components/ResultScreen';
+import { HomeFlow } from '@/components/home/HomeFlow';
+import {
+  SOURDOUGH_REVIVAL_GUIDE_SLUG,
+  SOURDOUGH_STARTER_CHEAT_SHEET_SLUG,
+} from '@/lib/products/slugs';
+import { getProductBySlug } from '@/sanity/lib/queries';
 
-type Flow = 'start' | 'questions' | 'photo' | 'done';
-
-export default function Home() {
-  const [flow, setFlow] = useState<Flow>('start');
-  const [finalScore, setFinalScore] = useState<number | null>(null);
-  const [uploadedPhoto, setUploadedPhoto] = useState<File | null>(null);
-
-  const handleComplete = (score: number, image?: File) => {
-    setFinalScore(score);
-    if (image) setUploadedPhoto(image);
-    setFlow('done');
-  };
-
-  const handleRetry = () => {
-    setFinalScore(null);
-    setUploadedPhoto(null);
-    setFlow('start');
-  };
+export default async function Home() {
+  const [revivalGuideProduct, cheatSheetProduct] = await Promise.all([
+    getProductBySlug(SOURDOUGH_REVIVAL_GUIDE_SLUG),
+    getProductBySlug(SOURDOUGH_STARTER_CHEAT_SHEET_SLUG),
+  ]);
 
   return (
-    <>
-      {flow === 'start' && (
-        <StartPage
-          onStart={() => setFlow('questions')}
-          onPhotoStart={() => setFlow('photo')}
-        />
-      )}
-      {flow === 'questions' && (
-        <QuestionFlow onComplete={handleComplete} />
-      )}
-      {flow === 'photo' && (
-        <ImageUploadFlow
-          onComplete={handleComplete}
-          onFallbackToQuestions={() => setFlow('questions')}
-        />
-      )}
-      {flow === 'done' && finalScore !== null && (
-        <ResultScreen
-          score={finalScore}
-          image={uploadedPhoto}
-          onRetry={handleRetry}
-        />
-      )}
-    </>
+    <HomeFlow
+      cheatSheetProduct={cheatSheetProduct}
+      revivalGuideProduct={revivalGuideProduct}
+    />
   );
 }

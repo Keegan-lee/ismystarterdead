@@ -7,7 +7,7 @@ import { ProductBlock } from '../components/ProductBlock';
 export interface IProductDeliveryEmailProps {
   productTitle: string;
   productDescription: string;
-  productDisplayPrice: string;
+  productPriceLabel: string;
   productImageUrl?: string;
   supportEmail?: string;
   downloadUrl?: string;
@@ -16,19 +16,24 @@ export interface IProductDeliveryEmailProps {
 export function ProductDeliveryEmail({
   productTitle,
   productDescription,
-  productDisplayPrice,
+  productPriceLabel,
   productImageUrl,
   supportEmail,
   downloadUrl,
 }: IProductDeliveryEmailProps) {
-  const deliveryLine = downloadUrl
-    ? 'Thanks for your purchase. Your download link is below.'
-    : 'Thanks for your purchase. Your file is attached to this email.';
+  const isFree = productPriceLabel.trim().toLowerCase() === 'free';
+  const deliveryLine = isFree
+    ? downloadUrl
+      ? 'Thanks for grabbing this freebie. Your download link is below.'
+      : 'Thanks for grabbing this freebie. Your file is attached to this email.'
+    : downloadUrl
+      ? 'Thanks for your purchase. Your download link is below.'
+      : 'Thanks for your purchase. Your file is attached to this email.';
 
   return (
     <Html>
       <Head />
-      <Preview>Your purchase is ready — {productTitle}</Preview>
+      <Preview>Your file is ready — {productTitle}</Preview>
       <Body style={{ backgroundColor: '#fdf8f2', margin: 0, padding: 0 }}>
         <Container style={{ maxWidth: 560, margin: '0 auto', padding: '24px 16px' }}>
           <Section
@@ -47,7 +52,7 @@ export function ProductDeliveryEmail({
             <ProductBlock
               title={productTitle}
               description={productDescription}
-              displayPrice={productDisplayPrice}
+              priceLabel={productPriceLabel}
               imageUrl={productImageUrl}
             />
 
@@ -68,4 +73,3 @@ export function ProductDeliveryEmail({
     </Html>
   );
 }
-

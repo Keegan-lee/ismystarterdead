@@ -1,12 +1,27 @@
 'use client';
 import React, { useState } from 'react';
+
+import { ProductCheckoutCta } from '@/components/checkout/ProductCheckoutCta/ProductCheckoutCta';
 import { evaluateStarterScore } from '@/lib/evaluateScore';
+import { formatPriceInCents } from '@/lib/pricing/formatPrice';
+import type { TProductCheckoutSummary } from '@/sanity/lib/types';
+
 import StarterMeter from './StarterMeter';
 
-interface ResultScreenProps {
+const FALLBACK_REVIVAL_TITLE = 'The Sourdough Revival Guide';
+const FALLBACK_REVIVAL_DESCRIPTION =
+  'A step-by-step 5-day rescue plan for starters that are struggling or dead. Written by an expert baker. Includes troubleshooting for every scenario.';
+
+const FALLBACK_CHEAT_SHEET_TITLE = 'Sourdough Starter Cheat Sheet';
+const FALLBACK_CHEAT_SHEET_DESCRIPTION =
+  'Feeding ratios, signs of life, smell guide — all on one page. Free PDF, no spam.';
+
+export interface IResultScreenProps {
   score: number;
   image?: File | null;
   onRetry: () => void;
+  revivalGuideProduct: TProductCheckoutSummary | null;
+  cheatSheetProduct: TProductCheckoutSummary | null;
 }
 
 const AFFILIATE_TOOLS = [
@@ -42,10 +57,14 @@ const DISCARD_RECIPES = [
   { name: 'Blueberry Muffins', time: '30 min', emoji: '🫐' },
 ];
 
-const ResultScreen: React.FC<ResultScreenProps> = ({ score, image, onRetry }) => {
+const ResultScreen: React.FC<IResultScreenProps> = ({
+  score,
+  image,
+  onRetry,
+  revivalGuideProduct,
+  cheatSheetProduct,
+}) => {
   const result = evaluateStarterScore(score);
-  const [emailSubmitted, setEmailSubmitted] = useState(false);
-  const [email, setEmail] = useState('');
   const [copied, setCopied] = useState(false);
 
   const handleShare = () => {
@@ -60,7 +79,7 @@ const ResultScreen: React.FC<ResultScreenProps> = ({ score, image, onRetry }) =>
   };
 
   return (
-    <div className="min-h-screen bg-flour pb-20">
+    <div className="flex flex-1 flex-col pb-20">
       {/* Hero Result */}
       <div className={`${result.bgColor} border-b ${result.borderColor} px-4 pt-10 pb-8`}>
         <div className="max-w-lg mx-auto text-center">
@@ -117,17 +136,25 @@ const ResultScreen: React.FC<ResultScreenProps> = ({ score, image, onRetry }) =>
               <div className="text-3xl">📖</div>
               <div className="flex-1">
                 <p className="text-xs font-semibold text-beaver uppercase tracking-wider mb-1">Digital Guide</p>
-                <h3 className="font-serif font-bold text-blackish mb-1">The Sourdough Revival Guide</h3>
-                <p className="text-xs text-beaver mb-3">A step-by-step 5-day rescue plan for starters that are struggling or dead. Written by an expert baker. Includes troubleshooting for every scenario.</p>
+                <h3 className="font-serif font-bold text-blackish mb-1">
+                  {revivalGuideProduct?.title ?? FALLBACK_REVIVAL_TITLE}
+                </h3>
+                <p className="text-xs text-beaver mb-3 whitespace-pre-line">
+                  {revivalGuideProduct?.description ?? FALLBACK_REVIVAL_DESCRIPTION}
+                </p>
                 <div className="flex items-center gap-3 flex-wrap">
-                  <a
-                    href="https://gumroad.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-primary text-xs"
-                  >
-                    Get the Guide — $7
-                  </a>
+                  {revivalGuideProduct ? (
+                    <ProductCheckoutCta
+                      product={revivalGuideProduct}
+                      ctaLabel={
+                        revivalGuideProduct.priceInCents <= 0
+                          ? 'Get the Free Guide →'
+                          : `Get the Guide — ${formatPriceInCents(revivalGuideProduct.priceInCents)} →`
+                      }
+                    />
+                  ) : (
+                    <span className="text-xs text-beaver">Checkout is coming soon.</span>
+                  )}
                   <span className="text-xs text-beaver">PDF • Instant download</span>
                 </div>
               </div>
@@ -160,36 +187,30 @@ const ResultScreen: React.FC<ResultScreenProps> = ({ score, image, onRetry }) =>
           </div>
         )}
 
-        {/* Email capture — free cheat sheet */}
-        {!emailSubmitted ? (
-          <div className="card border-dashed border-2 border-crust text-center">
-            <p className="text-xs font-semibold text-beaver uppercase tracking-wider mb-1">Free Download</p>
-            <p className="font-serif font-bold text-blackish mb-1">Sourdough Starter Cheat Sheet</p>
-            <p className="text-xs text-beaver mb-3">Feeding ratios, signs of life, smell guide — all on one page. Free PDF, no spam.</p>
-            <form
-              onSubmit={(e) => { e.preventDefault(); setEmailSubmitted(true); }}
-              className="flex gap-2"
-            >
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                placeholder="your@email.com"
-                className="flex-1 text-xs border border-dough rounded-lg px-3 py-2.5 bg-flour focus:outline-none focus:border-crust"
+        {/* Cheat sheet — Sanity checkout */}
+        <div className="card border-dashed border-2 border-crust text-center">
+          <p className="text-xs font-semibold text-beaver uppercase tracking-wider mb-1">Free Download</p>
+          <p className="font-serif font-bold text-blackish mb-1">
+            {cheatSheetProduct?.title ?? FALLBACK_CHEAT_SHEET_TITLE}
+          </p>
+          <p className="text-xs text-beaver mb-3 whitespace-pre-line">
+            {cheatSheetProduct?.description ?? FALLBACK_CHEAT_SHEET_DESCRIPTION}
+          </p>
+          <div className="flex justify-center">
+            {cheatSheetProduct ? (
+              <ProductCheckoutCta
+                product={cheatSheetProduct}
+                ctaLabel={
+                  cheatSheetProduct.priceInCents <= 0
+                    ? 'Get the Free Cheat Sheet →'
+                    : `Get the Cheat Sheet — ${formatPriceInCents(cheatSheetProduct.priceInCents)} →`
+                }
               />
-              <button type="submit" className="btn-primary text-xs px-4 py-2.5 whitespace-nowrap">
-                Send it →
-              </button>
-            </form>
+            ) : (
+              <span className="text-xs text-beaver">Checkout is coming soon.</span>
+            )}
           </div>
-        ) : (
-          <div className="card border-2 border-alive text-center bg-crumb">
-            <p className="text-2xl mb-1">🎉</p>
-            <p className="font-serif font-bold text-blackish text-sm">Check your inbox!</p>
-            <p className="text-xs text-beaver mt-1">Your cheat sheet is on its way.</p>
-          </div>
-        )}
+        </div>
 
         {/* Discard Recipe Quick Links */}
         {result.showDiscardRecipes && (

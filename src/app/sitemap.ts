@@ -1,19 +1,26 @@
 import type { MetadataRoute } from 'next';
 
 import { toCanonicalUrl } from '@/lib/seo/canonical';
+import { getIndexableSanitySitemapEntries } from '@/sanity/lib/sitemap';
 
 /** Regenerate sitemap periodically; aligns with Sanity revalidate windows elsewhere. */
 export const revalidate = 3600;
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date();
 
-  return [
+  const staticEntries: MetadataRoute.Sitemap = [
     {
       url: toCanonicalUrl('/'),
       lastModified,
       changeFrequency: 'weekly',
       priority: 1,
+    },
+    {
+      url: toCanonicalUrl('/books'),
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.9,
     },
     {
       url: toCanonicalUrl('/gallery'),
@@ -28,5 +35,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
   ];
-}
 
+  const dynamicEntries = await getIndexableSanitySitemapEntries();
+  const dynamicSitemap: MetadataRoute.Sitemap = dynamicEntries.map((entry) => ({
+    url: toCanonicalUrl(entry.pathname),
+    lastModified: new Date(entry.updatedAt),
+    changeFrequency: 'weekly',
+    priority: 0.7,
+  }));
+
+  return [...staticEntries, ...dynamicSitemap];
+}

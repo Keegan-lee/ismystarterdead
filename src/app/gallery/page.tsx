@@ -23,17 +23,7 @@ const TAG_COLORS: Record<string, string> = {
 
 export default function GalleryPage() {
   return (
-    <div className="min-h-screen bg-flour">
-      {/* Nav */}
-      <nav className="flex items-center justify-between px-6 py-4 border-b border-dough">
-        <Link href="/" className="font-serif font-bold text-blackish text-sm">🫙 IsMyStarterDead</Link>
-        <div className="flex items-center gap-4 text-xs text-beaver">
-          <Link href="/gallery" className="text-umber font-semibold">Gallery</Link>
-          <Link href="/discard-recipes" className="hover:text-umber transition-colors">Recipes</Link>
-        </div>
-      </nav>
-
-      <div className="max-w-2xl mx-auto px-4 py-10">
+    <div className="max-w-2xl mx-auto px-4 py-10">
         <div className="text-center mb-8">
           <h1 className="font-serif text-3xl font-bold text-blackish mb-2">Starter Gallery</h1>
           <p className="text-beaver text-sm">Real examples of healthy, struggling, and dead starters. Use these to compare with your own.</p>
@@ -81,15 +71,6 @@ export default function GalleryPage() {
             ← Check your own starter
           </Link>
         </div>
-      </div>
-
-      <footer className="border-t border-dough px-6 py-4 flex items-center justify-between text-[11px] text-beaver mt-8">
-        <span>© 2025 IsMyStarterDead.com</span>
-        <div className="flex gap-4">
-          <Link href="/gallery" className="hover:text-umber transition-colors">Gallery</Link>
-          <Link href="/discard-recipes" className="hover:text-umber transition-colors">Discard Recipes</Link>
-        </div>
-      </footer>
     </div>
   );
 }

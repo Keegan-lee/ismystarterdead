@@ -1,9 +1,13 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useId, useState } from 'react';
 
-interface StarterMeterProps {
+export interface IStarterMeterProps {
   score: number;
   compact?: boolean;
+  /** Small header mark (~36px tall) for nav; do not combine with `compact`. */
+  logo?: boolean;
+  /** When false, only the jar SVG is shown (e.g. navbar logo). */
+  showLabel?: boolean;
 }
 
 type HealthLevel = 'dead' | 'contaminated' | 'at-risk' | 'needs-love' | 'alive';
@@ -66,7 +70,12 @@ const HEALTH_CONFIG: Record<HealthLevel, {
   },
 };
 
-const StarterMeter: React.FC<StarterMeterProps> = ({ score, compact = false }) => {
+const StarterMeter: React.FC<IStarterMeterProps> = ({
+  score,
+  compact = false,
+  logo = false,
+  showLabel = true,
+}) => {
   const clamped = Math.max(-100, Math.min(100, score));
   const health = getHealth(clamped);
   const cfg = HEALTH_CONFIG[health];
@@ -77,9 +86,11 @@ const StarterMeter: React.FC<StarterMeterProps> = ({ score, compact = false }) =
     return () => clearTimeout(t);
   }, [cfg.fillPct]);
 
-  // Dimensions
-  const W = compact ? 64 : 100;
-  const H = compact ? 80 : 128;
+  const isCompact = compact || logo;
+
+  // Dimensions (logo fits ~40px row height including vertical padding)
+  const W = logo ? 30 : compact ? 64 : 100;
+  const H = logo ? 36 : compact ? 80 : 128;
 
   // Lid
   const lidW = W * 0.58;
@@ -104,8 +115,8 @@ const StarterMeter: React.FC<StarterMeterProps> = ({ score, compact = false }) =
   const fillY = bodyY + bodyH - fillH;
 
   // Wavy surface path (simple sine approximation using cubic bezier)
-  const waveAmp = compact ? 2 : 3.5;
-  const wavePath = fillH > 4
+  const waveAmp = logo ? 1 : compact ? 2 : 3.5;
+  const wavePath = fillH > (logo ? 2 : 4)
     ? `M ${bodyX} ${fillY}
        C ${bodyX + bodyW * 0.25} ${fillY - waveAmp}, ${bodyX + bodyW * 0.5} ${fillY + waveAmp}, ${bodyX + bodyW} ${fillY}
        L ${bodyX + bodyW} ${bodyY + bodyH}
@@ -115,19 +126,23 @@ const StarterMeter: React.FC<StarterMeterProps> = ({ score, compact = false }) =
 
   // Bubble positions inside the fill zone
   const rawBubbles = [
-    { cx: bodyX + bodyW * 0.22, cy: bodyY + bodyH * 0.60, r: compact ? 2.2 : 3.2 },
-    { cx: bodyX + bodyW * 0.50, cy: bodyY + bodyH * 0.50, r: compact ? 1.6 : 2.4 },
-    { cx: bodyX + bodyW * 0.72, cy: bodyY + bodyH * 0.68, r: compact ? 1.8 : 2.8 },
-    { cx: bodyX + bodyW * 0.38, cy: bodyY + bodyH * 0.75, r: compact ? 1.2 : 1.8 },
-    { cx: bodyX + bodyW * 0.62, cy: bodyY + bodyH * 0.40, r: compact ? 1.4 : 2.0 },
+    { cx: bodyX + bodyW * 0.22, cy: bodyY + bodyH * 0.60, r: logo ? 1.0 : compact ? 2.2 : 3.2 },
+    { cx: bodyX + bodyW * 0.50, cy: bodyY + bodyH * 0.50, r: logo ? 0.75 : compact ? 1.6 : 2.4 },
+    { cx: bodyX + bodyW * 0.72, cy: bodyY + bodyH * 0.68, r: logo ? 0.85 : compact ? 1.8 : 2.8 },
+    { cx: bodyX + bodyW * 0.38, cy: bodyY + bodyH * 0.75, r: logo ? 0.55 : compact ? 1.2 : 1.8 },
+    { cx: bodyX + bodyW * 0.62, cy: bodyY + bodyH * 0.40, r: logo ? 0.65 : compact ? 1.4 : 2.0 },
   ];
-  const visibleBubbles = rawBubbles.filter(b => b.cy > fillY + 4);
+  const visibleBubbles = rawBubbles.filter(b => b.cy > fillY + (logo ? 2 : 4));
 
-  const gradId = `fill-grad-${health}`;
-  const clipId = `jar-clip-${health}`;
+  const instanceId = useId().replace(/:/g, '');
+  const gradId = `fill-grad-${instanceId}`;
+  const clipId = `jar-clip-${instanceId}`;
+
+  const gapClass =
+    !showLabel && isCompact ? 'gap-0' : isCompact ? 'gap-0.5' : 'gap-2';
 
   return (
-    <div className={`flex flex-col items-center ${compact ? 'gap-0.5' : 'gap-2'}`}>
+    <div className={`flex flex-col items-center ${gapClass}`}>
       <svg
         viewBox={`0 0 ${W} ${H}`}
         width={W}
@@ -153,7 +168,16 @@ const StarterMeter: React.FC<StarterMeterProps> = ({ score, compact = false }) =
         <rect x={neckX} y={neckY + lidH * 0.4} width={neckW} height={neckH * 0.7} rx={2} fill="#e8d5b7" stroke="#c8a97e" strokeWidth={1} />
 
         {/* Jar body background */}
-        <rect x={bodyX} y={bodyY} width={bodyW} height={bodyH} rx={r} fill="#fdf8f2" stroke="#c8a97e" strokeWidth={1.5} />
+        <rect
+          x={bodyX}
+          y={bodyY}
+          width={bodyW}
+          height={bodyH}
+          rx={r}
+          fill="#fdf8f2"
+          stroke="#c8a97e"
+          strokeWidth={logo ? 1 : 1.5}
+        />
 
         {/* Starter fill */}
         <g clipPath={`url(#${clipId})`}>
@@ -178,13 +202,22 @@ const StarterMeter: React.FC<StarterMeterProps> = ({ score, compact = false }) =
           )}
 
           {/* Bubbles inside fill */}
-          {animatedPct > 15 && visibleBubbles.map((b, i) => (
+          {animatedPct > (logo ? 12 : 15) && visibleBubbles.map((b, i) => (
             <circle key={i} cx={b.cx} cy={b.cy} r={b.r} fill={cfg.bubbleColor} opacity={0.65} />
           ))}
         </g>
 
         {/* Jar body border overlay */}
-        <rect x={bodyX} y={bodyY} width={bodyW} height={bodyH} rx={r} fill="none" stroke="#c8a97e" strokeWidth={1.5} />
+        <rect
+          x={bodyX}
+          y={bodyY}
+          width={bodyW}
+          height={bodyH}
+          rx={r}
+          fill="none"
+          stroke="#c8a97e"
+          strokeWidth={logo ? 1 : 1.5}
+        />
 
         {/* Glass shine */}
         <rect
@@ -198,12 +231,14 @@ const StarterMeter: React.FC<StarterMeterProps> = ({ score, compact = false }) =
         />
       </svg>
 
-      <p
-        className={`font-semibold tracking-wide ${compact ? 'text-[10px]' : 'text-sm'}`}
-        style={{ color: cfg.labelColor }}
-      >
-        {cfg.label}
-      </p>
+      {showLabel ? (
+        <p
+          className={`font-semibold tracking-wide ${logo ? 'text-[9px]' : compact ? 'text-[10px]' : 'text-sm'}`}
+          style={{ color: cfg.labelColor }}
+        >
+          {cfg.label}
+        </p>
+      ) : null}
     </div>
   );
 };

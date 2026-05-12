@@ -8,20 +8,19 @@ import { CheckoutModal } from '../CheckoutModal/CheckoutModal';
 import { urlForImage } from '@/sanity/lib/image';
 
 export interface IProductCheckoutCtaProps {
-  product: Pick<IProduct, '_id' | 'title' | 'description' | 'displayPrice' | 'image'>;
+  product: Pick<IProduct, '_id' | 'title' | 'description' | 'priceInCents' | 'image'>;
   ctaLabel: string;
 }
 
 export function ProductCheckoutCta({ product, ctaLabel }: IProductCheckoutCtaProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [paymentIntentId, setPaymentIntentId] = useState<string | null>(null);
 
   const checkoutProduct = useMemo(
     () => ({
       productId: product._id,
       title: product.title,
       description: product.description,
-      displayPrice: product.displayPrice,
+      priceInCents: product.priceInCents,
       imageUrl: product?.image?.asset?._ref
         ? urlForImage(product.image)
             // This image is used as a "book cover" in the checkout modal.
@@ -33,7 +32,7 @@ export function ProductCheckoutCta({ product, ctaLabel }: IProductCheckoutCtaPro
             .url()
         : undefined,
     }),
-    [product._id, product.description, product.displayPrice, product.title],
+    [product._id, product.description, product.priceInCents, product.title, product.image],
   );
 
   return (
@@ -41,22 +40,12 @@ export function ProductCheckoutCta({ product, ctaLabel }: IProductCheckoutCtaPro
       <button
         type="button"
         className="btn-primary text-xs inline-flex items-center gap-2"
-        onClick={() => {
-          setPaymentIntentId(null);
-          setIsOpen(true);
-        }}
+        onClick={() => setIsOpen(true)}
       >
         <span>{ctaLabel}</span>
       </button>
 
-      <CheckoutModal
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        product={checkoutProduct}
-        onPaymentSucceeded={(id) => setPaymentIntentId(id)}
-        paymentIntentId={paymentIntentId}
-      />
+      <CheckoutModal isOpen={isOpen} onClose={() => setIsOpen(false)} product={checkoutProduct} />
     </>
   );
 }
-
