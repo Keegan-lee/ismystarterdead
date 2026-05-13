@@ -6,6 +6,11 @@ export interface IStarterMeterProps {
   compact?: boolean;
   /** Small header mark (~36px tall) for nav; do not combine with `compact`. */
   logo?: boolean;
+  /**
+   * Decorative brown starter fill for branding (e.g. nav). Uses warm brown tones
+   * independent of `score` so the mark does not imply a quiz result.
+   */
+  logoBrown?: boolean;
   /** When false, only the jar SVG is shown (e.g. navbar logo). */
   showLabel?: boolean;
 }
@@ -70,15 +75,29 @@ const HEALTH_CONFIG: Record<HealthLevel, {
   },
 };
 
+/** Rye / whole-wheat style starter — same family as `dead` tier, higher fill for logo use. */
+const LOGO_BROWN_STYLE = {
+  fillColor: '#c4956a',
+  fillColor2: '#8b5e3c',
+  bubbleColor: '#d4a87a',
+  labelColor: '#8b5e3c',
+  fillPct: 82,
+} as const;
+
 const StarterMeter: React.FC<IStarterMeterProps> = ({
   score,
   compact = false,
   logo = false,
+  logoBrown = false,
   showLabel = true,
 }) => {
   const clamped = Math.max(-100, Math.min(100, score));
   const health = getHealth(clamped);
-  const cfg = HEALTH_CONFIG[health];
+  const cfgFromScore = HEALTH_CONFIG[health];
+  const cfg =
+    logo && logoBrown
+      ? { ...cfgFromScore, ...LOGO_BROWN_STYLE }
+      : cfgFromScore;
 
   const [animatedPct, setAnimatedPct] = useState(0);
   useEffect(() => {
@@ -147,7 +166,8 @@ const StarterMeter: React.FC<IStarterMeterProps> = ({
         viewBox={`0 0 ${W} ${H}`}
         width={W}
         height={H}
-        aria-label={`Starter health: ${cfg.label}`}
+        aria-hidden={logo && logoBrown ? true : undefined}
+        aria-label={logo && logoBrown ? undefined : `Starter health: ${cfg.label}`}
         style={{ overflow: 'visible' }}
       >
         <defs>

@@ -15,6 +15,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(CANONICAL_ORIGIN),
   title: 'Is My Starter Dead? | Sourdough Starter Diagnostic',
   description: 'Find out if your sourdough starter is alive, struggling, or dead — in under 2 minutes. Get expert revival tips, discard recipes, and community support.',
+  applicationName: 'Is My Starter Dead?',
+  appleWebApp: {
+    title: 'Is My Starter Dead?',
+  },
+  themeColor: '#fdf8f2',
   openGraph: {
     title: 'Is My Starter Dead?',
     description: 'Diagnose your sourdough starter health in under 2 minutes. Free tool + expert revival guides.',

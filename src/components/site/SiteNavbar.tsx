@@ -5,8 +5,6 @@ import { usePathname } from 'next/navigation';
 
 import StarterMeter from '@/components/StarterMeter';
 
-const NAV_LOGO_SCORE = 88;
-
 function navLinkClass(href: string, pathname: string | null) {
   const active = pathname === href || (pathname?.startsWith(`${href}/`) ?? false);
   return active ? 'text-umber font-semibold' : 'hover:text-umber transition-colors';
@@ -22,7 +20,7 @@ export function SiteNavbar() {
     <nav className="flex shrink-0 items-center justify-between border-b border-dough px-6 py-2">
       <Link href="/" className="flex items-center gap-2 text-blackish" aria-label="IsMyStarterDead home">
         <span className="shrink-0 leading-none">
-          <StarterMeter score={NAV_LOGO_SCORE} logo showLabel={false} />
+          <StarterMeter score={0} logo logoBrown showLabel={false} />
         </span>
         <span className="font-serif text-sm font-bold leading-tight">Is My Starter Dead?</span>
       </Link>
