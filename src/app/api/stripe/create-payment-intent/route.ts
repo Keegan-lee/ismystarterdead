@@ -9,6 +9,11 @@ interface ICreatePaymentIntentRequestBody {
   email?: unknown;
 }
 
+/** Loose sanity check — delivery and Stripe receipt need a real-looking address. */
+function isPlausibleEmail(value: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
 export async function POST(req: Request) {
   try {
     const body = (await req.json()) as ICreatePaymentIntentRequestBody;
@@ -17,6 +22,13 @@ export async function POST(req: Request) {
 
     if (!productId) {
       return NextResponse.json({ error: 'Missing productId' }, { status: 400 });
+    }
+
+    if (!email || !isPlausibleEmail(email)) {
+      return NextResponse.json(
+        { error: 'A valid email is required so we can send your purchase.' },
+        { status: 400 },
+      );
     }
 
     const product = await getProductForCheckoutById(productId);
@@ -60,8 +72,9 @@ export async function POST(req: Request) {
       amount: price.unit_amount,
       currency: price.currency,
       automatic_payment_methods: { enabled: true },
-      receipt_email: email || undefined,
+      receipt_email: email,
       metadata: {
+        buyerEmail: email,
         sanityProductId: product._id,
         sanityProductTitle: product.title,
         sanityProductDescription: product.description,

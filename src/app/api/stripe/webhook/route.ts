@@ -24,6 +24,9 @@ function toErrorMessage(err: unknown): string {
 }
 
 function getBuyerEmail(paymentIntent: import('stripe').Stripe.PaymentIntent): string | null {
+  const metaEmail = paymentIntent.metadata?.buyerEmail?.trim();
+  if (metaEmail) return metaEmail;
+
   if (paymentIntent.receipt_email) return paymentIntent.receipt_email;
 
   // `PaymentIntent.charges` is not available on modern API versions/types.

@@ -22,7 +22,13 @@ interface ICreatePaymentIntentResponse {
   clientSecret: string;
 }
 
-function StripePaymentInner({ onPaymentSucceeded }: { onPaymentSucceeded: (paymentIntentId: string) => void }) {
+function StripePaymentInner({
+  receiptEmail,
+  onPaymentSucceeded,
+}: {
+  receiptEmail: string;
+  onPaymentSucceeded: (paymentIntentId: string) => void;
+}) {
   const stripe = useStripe();
   const elements = useElements();
   const router = useRouter();
@@ -42,6 +48,7 @@ function StripePaymentInner({ onPaymentSucceeded }: { onPaymentSucceeded: (payme
         elements,
         confirmParams: {
           return_url: `${window.location.origin}/receipt`,
+          receipt_email: receiptEmail.trim(),
         },
         redirect: 'if_required',
       });
@@ -190,12 +197,20 @@ export function CheckoutForm({ productId, priceInCents, onSucceeded }: ICheckout
     setIsLoading(true);
     setError(null);
     try {
+      const trimmed = email.trim();
+      if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+        throw new Error('Please enter a valid email so we can send your file after payment.');
+      }
+
       const res = await fetch('/api/stripe/create-payment-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ productId, email }),
+        body: JSON.stringify({ productId, email: trimmed }),
       });
-      if (!res.ok) throw new Error('Failed to start checkout. Please try again.');
+      if (!res.ok) {
+        const data = (await res.json().catch(() => ({}))) as { error?: string };
+        throw new Error(data?.error || 'Failed to start checkout. Please try again.');
+      }
       const data = (await res.json()) as ICreatePaymentIntentResponse;
       if (!data?.clientSecret) throw new Error('Missing payment client secret.');
       setClientSecret(data.clientSecret);
@@ -234,6 +249,7 @@ export function CheckoutForm({ productId, priceInCents, onSucceeded }: ICheckout
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           type="email"
+          required
           placeholder="you@example.com"
           className="mt-1 w-full rounded-xl border border-dough bg-flour px-3 py-2 text-sm text-blackish placeholder:text-beaver/70 focus:outline-none focus:ring-2 focus:ring-crust"
           autoComplete="email"
@@ -251,7 +267,10 @@ export function CheckoutForm({ productId, priceInCents, onSucceeded }: ICheckout
         </button>
       ) : (
         <Elements stripe={stripePromise} options={{ clientSecret, appearance }}>
-          <StripePaymentInner onPaymentSucceeded={(id) => onSucceeded({ kind: 'paid', paymentIntentId: id })} />
+          <StripePaymentInner
+            receiptEmail={email}
+            onPaymentSucceeded={(id) => onSucceeded({ kind: 'paid', paymentIntentId: id })}
+          />
         </Elements>
       )}
     </div>
