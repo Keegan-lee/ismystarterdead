@@ -1,7 +1,13 @@
 import { groq } from 'next-sanity';
 
 import { sanityClient } from './client';
-import type { IAffiliateOffer, IProduct, IProductForCheckout } from './types';
+import type {
+  IAffiliateOffer,
+  IFaqCategory,
+  IFaqItem,
+  IProduct,
+  IProductForCheckout,
+} from './types';
 
 const productProjection = groq`{
   _id,
@@ -69,6 +75,73 @@ export async function getAffiliateOffers(): Promise<IAffiliateOffer[]> {
     }`,
     {},
     { next: { revalidate: 300 } },
+  );
+}
+
+/**
+ * Shared GROQ projection for `faqItem` documents. Dereferences the category
+ * into a compact ref shape so the frontend can render filter pills and group
+ * labels without a second round-trip.
+ */
+const faqItemProjection = groq`{
+  _id,
+  question,
+  "slug": slug.current,
+  answer,
+  answerPlain,
+  order,
+  seoKeywords,
+  active,
+  "category": category->{
+    _id,
+    title,
+    "slug": slug.current,
+    colorAccent
+  }
+}`;
+
+/** Active FAQ categories ordered for the `/faq` filter pills. Excludes drafts and inactive entries. */
+export async function getFaqCategories(): Promise<IFaqCategory[]> {
+  return sanityClient.fetch(
+    groq`*[
+      _type == "faqCategory" &&
+      (active == true || !defined(active)) &&
+      !(_id in path("drafts.**"))
+    ] | order(coalesce(order, 100) asc, title asc) {
+      _id,
+      title,
+      slug,
+      description,
+      order,
+      colorAccent,
+      active
+    }`,
+    {},
+    /** Editorial content: avoid caching empty/stale responses after imports (see `getAllFaqs`). */
+    { next: { revalidate: 0 } },
+  );
+}
+
+/**
+ * All active FAQ items, ordered by category then within-category order. Items
+ * whose `category` reference does not resolve to a published document are omitted
+ * (`defined(category->)`).
+ */
+export async function getAllFaqs(): Promise<IFaqItem[]> {
+  return sanityClient.fetch(
+    groq`*[
+      _type == "faqItem" &&
+      (active == true || !defined(active)) &&
+      !(_id in path("drafts.**")) &&
+      defined(category->)
+    ] | order(coalesce(category->order, 100) asc, coalesce(order, 100) asc, question asc) ${faqItemProjection}`,
+    {},
+    /**
+     * Always revalidate: FAQs change rarely but must appear immediately after Studio
+     * edits or `faqs:import`; a long `revalidate` window made it easy to assume the
+     * page was "broken" while the Data Cache still held an older empty response.
+     */
+    { next: { revalidate: 0 } },
   );
 }
 

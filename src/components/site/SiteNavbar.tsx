@@ -34,6 +34,9 @@ export function SiteNavbar() {
         <Link href="/discard-recipes" className={navLinkClass('/discard-recipes', pathname)}>
           Recipes
         </Link>
+        <Link href="/faq" className={navLinkClass('/faq', pathname)}>
+          FAQ
+        </Link>
       </div>
     </nav>
   );

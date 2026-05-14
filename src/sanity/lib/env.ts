@@ -19,7 +19,7 @@ export function getSanityEnv() {
     projectId,
     dataset,
     apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2025-02-01',
-    readToken: process.env.SANITY_API_READ_TOKEN,
+    readToken: process.env.SANITY_API_WRITE_KEY,
   };
 }
 

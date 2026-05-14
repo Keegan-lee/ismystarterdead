@@ -6,9 +6,13 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "faqs:import": "tsx scripts/import-faqs.ts",
+    "faqs:diagnose": "tsx scripts/diagnose-faq-sanity.ts"
   },
   "dependencies": {
+    "@portabletext/react": "^6.2.0",
+    "@portabletext/types": "^4.0.2",
     "@react-email/components": "^1.0.12",
     "@react-email/render": "^2.0.8",
     "@sanity/image-url": "^2.1.1",
@@ -27,15 +31,16 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^20",
     "@types/react": "^19",
-    "@types/canvas-confetti": "^1.9.0",
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.21",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.3",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   },
   "description": "This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).",

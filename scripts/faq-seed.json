@@ -1,0 +1,433 @@
+{
+  "categories": [
+    {
+      "slug": "getting-started",
+      "title": "Getting Started",
+      "description": "How to create a brand-new starter from scratch.",
+      "order": 10,
+      "colorAccent": "crust",
+      "active": true
+    },
+    {
+      "slug": "feeding",
+      "title": "Feeding",
+      "description": "How to feed your starter day-to-day and keep it active.",
+      "order": 20,
+      "colorAccent": "alive",
+      "active": true
+    },
+    {
+      "slug": "storage",
+      "title": "Storage",
+      "description": "Where and how to store your starter short-term and long-term.",
+      "order": 30,
+      "colorAccent": "crust",
+      "active": true
+    },
+    {
+      "slug": "reviving",
+      "title": "Reviving",
+      "description": "Tactics for waking up a sluggish, neglected, or dehydrated starter.",
+      "order": 40,
+      "colorAccent": "alive",
+      "active": true
+    },
+    {
+      "slug": "troubleshooting",
+      "title": "Troubleshooting",
+      "description": "Common starter problems and how to diagnose them.",
+      "order": 50,
+      "colorAccent": "warn",
+      "active": true
+    },
+    {
+      "slug": "hydration-ratios",
+      "title": "Hydration & Ratios",
+      "description": "Understanding feeding ratios, hydration percentages, and how they affect your starter.",
+      "order": 60,
+      "colorAccent": "crust",
+      "active": true
+    },
+    {
+      "slug": "baking-readiness",
+      "title": "Baking Readiness",
+      "description": "How to tell when your starter is ready to bake with.",
+      "order": 70,
+      "colorAccent": "alive",
+      "active": true
+    },
+    {
+      "slug": "travel-and-breaks",
+      "title": "Travel & Breaks",
+      "description": "How to manage your starter when you're away or taking a baking break.",
+      "order": 80,
+      "colorAccent": "crust",
+      "active": true
+    }
+  ],
+  "items": [
+    {
+      "categorySlug": "getting-started",
+      "question": "How do I create a sourdough starter from scratch?",
+      "slug": "create-starter-from-scratch",
+      "answer": "Mix 50 g of whole wheat or rye flour with 50 g of room-temperature water in a clean jar. Stir vigorously to incorporate air, then loosely cover (not airtight) and leave at room temperature.\n\nEvery 24 hours, discard all but 50 g of the mixture and feed it with 50 g fresh flour and 50 g water. By day 5–7 you should see reliable bubbling and doubling. Don't worry if the first couple of days seem quiet — that's normal.",
+      "answerPlain": "Mix 50 g whole wheat flour with 50 g water. Discard all but 50 g each day and feed with fresh 50 g flour and 50 g water. Expect reliable activity by day 5–7.",
+      "order": 10,
+      "seoKeywords": ["how to make sourdough starter", "sourdough starter from scratch", "new starter recipe"],
+      "active": true
+    },
+    {
+      "categorySlug": "getting-started",
+      "question": "What kind of water should I use for my starter?",
+      "slug": "what-water-for-starter",
+      "answer": "Unchlorinated water is best. Chlorine in tap water can slow or inhibit the wild yeast and bacteria that make your starter work.\n\nThe easiest fix is to fill a jug with tap water and leave it uncovered overnight — the chlorine off-gasses. Alternatively, use filtered or bottled spring water. Avoid distilled water, which lacks the minerals your microbes appreciate.",
+      "answerPlain": "Use unchlorinated water. Leave tap water out overnight to off-gas chlorine, or use filtered/spring water. Avoid distilled water.",
+      "order": 20,
+      "seoKeywords": ["water for sourdough starter", "chlorine sourdough"],
+      "active": true
+    },
+    {
+      "categorySlug": "getting-started",
+      "question": "Why is my new starter not bubbling after 3 days?",
+      "slug": "starter-not-bubbling-day-3",
+      "answer": "Patience is the main ingredient in the early days. A few common culprits:\n\n- **Temperature** — wild yeast is sluggish below 21 °C (70 °F). Move your starter somewhere warmer, like the top of the fridge or near (not on) a heat source.\n- **Chlorinated water** — switch to filtered or overnight-rested tap water.\n- **Bleached flour** — unbleached flour has more wild yeast and bacteria on the bran. Try whole wheat or rye for at least a few feedings.\n- **Jar cleanliness** — residual soap can inhibit fermentation. Rinse your jar with hot water only.",
+      "answerPlain": "Common causes: temperature below 21 °C, chlorinated water, bleached flour, or soap residue in the jar. Try warmer conditions, filtered water, and unbleached flour.",
+      "order": 30,
+      "seoKeywords": ["starter not bubbling", "sourdough starter slow", "new starter not active"],
+      "active": true
+    },
+    {
+      "categorySlug": "getting-started",
+      "question": "How long does it take to establish a new sourdough starter?",
+      "slug": "how-long-to-establish-starter",
+      "answer": "Most starters are reliably active within 7–14 days, though it can take longer in cool kitchens or with certain flour and water combinations.\n\nA starter is ready to bake with when it consistently doubles in size within 4–8 hours of a feeding, smells pleasantly sour and yeasty, and passes the float test (a small dollop floats in water).",
+      "answerPlain": "Expect 7–14 days to establish. A starter is ready when it consistently doubles within 4–8 hours of feeding and passes the float test.",
+      "order": 40,
+      "seoKeywords": ["how long to make sourdough starter", "starter establishment time"],
+      "active": true
+    },
+    {
+      "categorySlug": "getting-started",
+      "question": "Do I need to use rye flour to start a sourdough starter?",
+      "slug": "do-i-need-rye-flour",
+      "answer": "No, but it helps. Rye flour is particularly rich in wild yeast and fermentation-friendly bacteria because more of the bran is intact. Using even 20–30% rye for the first week can dramatically speed up establishment.\n\nOnce your starter is active, you can transition to all-purpose or bread flour for everyday feedings. Keep a small rye percentage if you want a quicker-rising, more vigorous culture.",
+      "order": 50,
+      "seoKeywords": ["rye flour starter", "rye sourdough starter", "do I need rye"],
+      "active": true
+    },
+    {
+      "categorySlug": "feeding",
+      "question": "How often should I feed my starter?",
+      "slug": "how-often-feed-starter",
+      "answer": "Most starters at room temperature do well on one or two feedings per day at a 1:1:1 ratio (starter:flour:water by weight).\n\nIf you keep your starter in the fridge, once a week is plenty — just bring it out and refresh it once or twice the day before you bake.",
+      "answerPlain": "At room temperature, feed once or twice a day at a 1:1:1 ratio by weight. Refrigerated starters only need a weekly feeding, with one or two refreshes before baking day.",
+      "order": 10,
+      "seoKeywords": ["sourdough feeding schedule", "how often feed starter"],
+      "active": true
+    },
+    {
+      "categorySlug": "feeding",
+      "question": "What flour should I use to feed my starter?",
+      "slug": "what-flour-to-feed-starter",
+      "answer": "An unbleached all-purpose or bread flour works well for daily feedings. A small amount of whole wheat or rye (around 10–20%) keeps the wild yeast and bacteria especially happy.\n\nBleached flour is treated with chemicals that can slightly impede fermentation, so it's worth avoiding if your starter ever seems sluggish.",
+      "order": 20,
+      "seoKeywords": ["best flour for sourdough starter", "flour to feed starter"],
+      "active": true
+    },
+    {
+      "categorySlug": "feeding",
+      "question": "What is discard, and do I have to throw it away?",
+      "slug": "what-is-sourdough-discard",
+      "answer": "Discard is the portion of starter you remove before each feeding. You discard because without it your starter would grow exponentially — requiring vast amounts of flour to maintain — and the acidity would eventually overwhelm the yeast.\n\nYou absolutely do not have to throw it away. Collected discard can be refrigerated for up to two weeks and used in pancakes, waffles, crackers, pizza dough, flatbreads, and more. It adds a mild tang and a lift from whatever residual yeast activity remains.",
+      "answerPlain": "Discard keeps your starter at a manageable size and prevents over-acidification. Store it in the fridge for up to two weeks and use it in pancakes, crackers, pizza dough, and similar recipes.",
+      "order": 30,
+      "seoKeywords": ["sourdough discard", "what to do with discard", "sourdough discard recipes"],
+      "active": true
+    },
+    {
+      "categorySlug": "feeding",
+      "question": "Can I feed my starter with whole wheat flour instead of white flour?",
+      "slug": "feed-starter-whole-wheat",
+      "answer": "Yes, and many bakers prefer it. Whole wheat flour contains more wild yeast, bacteria, and nutrients than white flour, which tends to produce a more vigorous, faster-rising starter.\n\nThe trade-off is that a 100% whole wheat starter can be more acidic and may rise and fall faster, requiring more frequent feedings at room temperature. A blend of 80% bread flour and 20% whole wheat is a popular middle ground.",
+      "order": 40,
+      "seoKeywords": ["whole wheat sourdough starter", "whole wheat feeding"],
+      "active": true
+    },
+    {
+      "categorySlug": "feeding",
+      "question": "Does the temperature of the water matter when feeding my starter?",
+      "slug": "water-temperature-feeding",
+      "answer": "Yes, though the effect is modest. Lukewarm water (around 25–27 °C / 77–81 °F) gives the yeast and bacteria a gentle head-start. Cold water slows activity, which can be useful if you want a slower, longer fermentation. Boiling or very hot water (above 50 °C / 122 °F) can kill the microbes outright — always let it cool first.",
+      "answerPlain": "Use lukewarm water around 25–27 °C for normal feedings. Cold water slows fermentation intentionally. Never use water above 50 °C or it can kill the starter.",
+      "order": 50,
+      "seoKeywords": ["water temperature starter", "sourdough feeding water temp"],
+      "active": true
+    },
+    {
+      "categorySlug": "feeding",
+      "question": "What does a healthy starter smell like?",
+      "slug": "what-does-healthy-starter-smell-like",
+      "answer": "A healthy, active starter at peak fermentation smells pleasantly sour and yeasty — somewhere between plain yogurt and fresh beer, with a faint fruity note.\n\nA starter that has gone too long between feedings will smell sharply alcoholic or like nail-polish remover (from excess acetone and ethanol). That's a sign it needs a feeding, not that it's ruined. A truly problematic smell — vomit-like (butyric acid), rotten, or putrid — can indicate contamination and warrants closer inspection.",
+      "answerPlain": "Healthy starter smells pleasantly sour and yeasty. A sharp alcohol smell means it needs feeding. A vomit-like or putrid odor may indicate contamination.",
+      "order": 60,
+      "seoKeywords": ["sourdough starter smell", "what should starter smell like", "starter odor"],
+      "active": true
+    },
+    {
+      "categorySlug": "storage",
+      "question": "Should I store my starter in the fridge or at room temperature?",
+      "slug": "fridge-vs-room-temperature-storage",
+      "answer": "It depends on how often you bake.\n\n- **Bake frequently (3+ times a week):** Keep the starter at room temperature and feed once or twice daily. It will always be near peak and ready to use.\n- **Bake occasionally (once a week or less):** Refrigerate it and feed once a week. Pull it out the day before baking for one or two refreshes.\n\nRoom-temperature starters are more active but more demanding. Refrigerator starters are convenient and perfectly healthy — the cold simply slows fermentation without harming the culture.",
+      "answerPlain": "Frequent bakers (3+ times a week) should keep starter at room temperature and feed daily. Occasional bakers should refrigerate it and feed weekly.",
+      "order": 10,
+      "seoKeywords": ["store sourdough starter fridge", "room temperature starter", "starter storage"],
+      "active": true
+    },
+    {
+      "categorySlug": "storage",
+      "question": "What is the best container to store a sourdough starter in?",
+      "slug": "best-container-for-starter",
+      "answer": "A tall, straight-sided glass jar (such as a wide-mouth Mason jar) is ideal. The straight sides make it easy to mark the starter level with a rubber band or tape so you can track how much it rises.\n\nAvoid airtight lids — your starter produces CO₂ and needs to breathe. A loose lid, a cloth secured with a rubber band, or a jar lid set on top without sealing all work well. Wide-mouth jars also make it easy to stir and scrape down the sides.",
+      "order": 20,
+      "seoKeywords": ["best jar for sourdough starter", "sourdough starter container", "mason jar starter"],
+      "active": true
+    },
+    {
+      "categorySlug": "storage",
+      "question": "How do I dry my starter for long-term storage?",
+      "slug": "how-to-dry-starter",
+      "answer": "Spread a thin layer of active starter onto a sheet of parchment paper or a silicone mat. Leave it at room temperature until completely dry and brittle — this usually takes 24–48 hours depending on humidity.\n\nBreak the dried flakes into small pieces and store in an airtight container away from light and heat. Dried starter keeps for at least a year, often longer. To revive, dissolve a tablespoon of flakes in water, add flour, and refresh over 2–3 days.",
+      "answerPlain": "Spread starter thinly on parchment and let it dry for 24–48 hours. Store the flakes airtight. Revive by dissolving in water and feeding over 2–3 days. Dried starter keeps for at least a year.",
+      "order": 30,
+      "seoKeywords": ["dry sourdough starter", "dehydrated starter", "long term starter storage"],
+      "active": true
+    },
+    {
+      "categorySlug": "storage",
+      "question": "Can I freeze my sourdough starter?",
+      "slug": "can-i-freeze-starter",
+      "answer": "Yes, though freezing is more disruptive to the microbial culture than drying. Feed your starter and let it peak, then transfer it to a freezer-safe container. Freeze for up to 3–6 months.\n\nTo revive, thaw overnight in the refrigerator, then move to room temperature and begin regular feedings. Expect it to take 3–5 days of feedings to regain full vigor. Many bakers prefer drying over freezing because the survival rate of the microbes is generally higher.",
+      "answerPlain": "Freeze a peaked starter for up to 3–6 months. Thaw in the fridge, then feed daily for 3–5 days to restore full activity. Drying is generally preferred over freezing.",
+      "order": 40,
+      "seoKeywords": ["freeze sourdough starter", "frozen starter", "starter long term storage"],
+      "active": true
+    },
+    {
+      "categorySlug": "reviving",
+      "question": "My starter has been in the fridge for a month — is it dead?",
+      "slug": "starter-fridge-month-dead",
+      "answer": "Almost certainly not. Discard most of it, feed at 1:1:1, leave it at room temperature, and repeat every 12 hours. After two or three feedings you should see bubbling and rising activity return.",
+      "answerPlain": "A month-old fridge starter is usually fine. Discard most of it, feed 1:1:1 at room temp, and repeat every 12 hours for 2–3 cycles to revive it.",
+      "order": 10,
+      "active": true
+    },
+    {
+      "categorySlug": "reviving",
+      "question": "How do I revive a dried or dehydrated sourdough starter?",
+      "slug": "revive-dried-starter",
+      "answer": "Combine 1 tablespoon of dried starter flakes with 2 tablespoons of lukewarm water in a clean jar. Stir until dissolved, then add 2 tablespoons of flour. Cover loosely and leave at room temperature.\n\nFeed once daily, discarding all but a small amount each time. Within 3–5 days the culture should show reliable bubbling and rise. Dried starter can take a little longer to reactivate than a refrigerated one, so patience is key.",
+      "answerPlain": "Dissolve 1 tbsp dried flakes in 2 tbsp water, add 2 tbsp flour, and feed daily for 3–5 days. Expect full activity to return within a week.",
+      "order": 20,
+      "seoKeywords": ["revive dried starter", "reactivate dehydrated starter"],
+      "active": true
+    },
+    {
+      "categorySlug": "reviving",
+      "question": "My starter is not rising at all after several feedings — what should I do?",
+      "slug": "starter-not-rising-after-feedings",
+      "answer": "Try these steps in order:\n\n1. **Warm it up.** Place the jar in a warm spot (27–30 °C / 80–86 °F). An oven with just the light on or a proofing box works well.\n2. **Switch to rye or whole wheat flour** for a few feedings — the extra nutrients can kick-start sluggish fermentation.\n3. **Try a smaller ratio.** Instead of 1:1:1, try 1:2:2 or even 1:5:5 — more food can help overwhelm old acid build-up.\n4. **Change your water.** If using tap water, switch to filtered or bottled.\n5. **Be patient.** A severely neglected starter can take 5–7 days of consistent feeding to come back fully.",
+      "answerPlain": "Warm the starter to 27–30 °C, switch to whole wheat or rye flour, use a higher feeding ratio, and change to filtered water. A severely neglected starter may take 5–7 days of feeding to recover.",
+      "order": 30,
+      "seoKeywords": ["starter not rising", "dead sourdough starter", "revive sluggish starter"],
+      "active": true
+    },
+    {
+      "categorySlug": "reviving",
+      "question": "Can a starter come back from mold?",
+      "slug": "starter-with-mold",
+      "answer": "It depends on how widespread the mold is. Pink, orange, or fuzzy mold (green, black, white fuzz) means the starter should be discarded — these molds can produce mycotoxins that are not safe and cannot be fed away.\n\nA small spot of white surface mold on an otherwise healthy-smelling starter is a judgment call that some experienced bakers make, but the safest course is always to discard and start fresh. Starting over with a new starter takes less than two weeks — not worth risking contaminated bread.",
+      "answerPlain": "Pink, orange, or fuzzy mold means discard the starter entirely. A small white surface spot is a judgment call, but starting fresh is always the safest option.",
+      "order": 40,
+      "seoKeywords": ["mold on sourdough starter", "starter mold", "pink starter", "orange starter"],
+      "active": true
+    },
+    {
+      "categorySlug": "troubleshooting",
+      "question": "What is the dark liquid on top of my starter?",
+      "slug": "dark-liquid-on-starter",
+      "answer": "That liquid is called \"hooch\" — it's alcohol produced by the wild yeast when they've run out of food. It is not dangerous. Pour it off (or stir it in for a more sour flavor) and feed your starter.",
+      "order": 10,
+      "seoKeywords": ["hooch on sourdough starter", "dark liquid sourdough"],
+      "active": true
+    },
+    {
+      "categorySlug": "troubleshooting",
+      "question": "Why does my starter smell like acetone or nail polish remover?",
+      "slug": "starter-smells-like-acetone",
+      "answer": "An acetone or nail-polish-remover smell means your starter is hungry and over-fermented. The yeast have consumed all available sugars and are producing ethanol and acetaldehyde as byproducts.\n\nThe fix is simple: discard most of it and give it a fresh feeding. The smell should mellow within 4–6 hours of a feed. If it persists after several feedings, try increasing your feeding ratio (e.g. 1:2:2) to dilute the acid build-up more aggressively.",
+      "answerPlain": "Acetone smell means the starter is hungry and over-fermented. Discard and feed. The smell should mellow within hours. Increase feeding ratio if it persists.",
+      "order": 20,
+      "seoKeywords": ["starter smells like acetone", "sourdough nail polish smell", "over-fermented starter"],
+      "active": true
+    },
+    {
+      "categorySlug": "troubleshooting",
+      "question": "Why is my starter very runny or watery?",
+      "slug": "starter-too-runny",
+      "answer": "A very liquid starter usually has too high a hydration or has been over-fermented to the point where the gluten structure in the flour has broken down.\n\nTo firm it up, try a stiffer feeding ratio — use less water than flour by weight (e.g. 1:1:0.75 starter:flour:water). Alternatively, switch to a higher-protein bread flour, which absorbs more water. A firmer, stiffer starter (around 65–75% hydration) tends to be more forgiving and slower to over-proof.",
+      "answerPlain": "A runny starter is over-hydrated or over-fermented. Feed with less water (e.g. 1:1:0.75 ratio), or switch to higher-protein bread flour to firm it up.",
+      "order": 30,
+      "seoKeywords": ["starter too runny", "watery sourdough starter", "starter too liquid"],
+      "active": true
+    },
+    {
+      "categorySlug": "troubleshooting",
+      "question": "My starter rises but then collapses before I can use it — what is happening?",
+      "slug": "starter-rises-then-collapses",
+      "answer": "This is completely normal — it just means you're catching it after it has peaked. Every starter rises to a maximum (peak), then falls as the yeast exhaust their food supply. The ideal time to use starter for baking is at or just before peak — when it's domed on top or just starting to flatten.\n\nTo time it better, mark the jar level after feeding and watch when it reaches maximum height. That peak window is your baking window. In a warm kitchen, this might be 3–5 hours; in a cooler kitchen, 6–10 hours.",
+      "answerPlain": "Starters naturally rise and fall. Use your starter at or just before peak — when it's at maximum height or just domed on top. Mark the jar after feeding and watch for the peak.",
+      "order": 40,
+      "seoKeywords": ["starter collapses", "starter rises and falls", "when to use starter"],
+      "active": true
+    },
+    {
+      "categorySlug": "troubleshooting",
+      "question": "Why is my starter developing a pink or orange streak?",
+      "slug": "starter-pink-orange-streak",
+      "answer": "Pink or orange discoloration is a serious warning sign. It typically indicates contamination by bacteria such as Serratia marcescens or, in some cases, a mold. These are not safe to bake with.\n\nDiscard the starter, wash the jar thoroughly with hot water and dish soap, and start fresh. Do not try to feed away pink or orange contamination — it will not resolve the problem.",
+      "answerPlain": "Pink or orange discoloration means bacterial or mold contamination. Discard the starter, clean the jar thoroughly, and start fresh. Do not attempt to revive it.",
+      "order": 50,
+      "seoKeywords": ["pink sourdough starter", "orange starter", "starter contamination"],
+      "active": true
+    },
+    {
+      "categorySlug": "troubleshooting",
+      "question": "Why does my bread taste too sour even though my starter seems healthy?",
+      "slug": "bread-too-sour",
+      "answer": "Sourness in sourdough comes from acetic acid (sharp, vinegary) and lactic acid (milder, yogurt-like). Bread that's too sour usually results from one or more of these factors:\n\n- **Over-fermentation** — bulk fermentation or proof went too long.\n- **Cold temperatures** — cold fermentation favors acetic acid production, increasing sharpness.\n- **High whole-grain flour** — whole wheat and rye produce more acidity.\n- **Using starter past peak** — a starter that has over-peaked and collapsed produces more acids.\n\nFor a milder loaf, try a shorter bulk fermentation, use your starter right at peak, and bake at slightly warmer temperatures.",
+      "answerPlain": "Bread is too sour when over-fermented, cold-proofed too long, or made with over-peaked starter. Use starter at peak, shorten bulk fermentation, and avoid excessively cold proofing.",
+      "order": 60,
+      "seoKeywords": ["sourdough too sour", "less sour sourdough", "reduce sourness bread"],
+      "active": true
+    },
+    {
+      "categorySlug": "troubleshooting",
+      "question": "My starter has a clear liquid at the bottom — is that normal?",
+      "slug": "clear-liquid-bottom-starter",
+      "answer": "Yes, this is normal and harmless. The liquid at the bottom is typically a combination of water that has separated out during fermentation and liquid byproducts of yeast activity. It tends to pool at the bottom when the gluten matrix in the flour starts to break down.\n\nStir it back in before feeding. If it happens frequently, try feeding a little more often or storing the starter in the refrigerator between bakes to slow down fermentation.",
+      "order": 70,
+      "seoKeywords": ["liquid at bottom of starter", "water separation starter", "starter liquid bottom"],
+      "active": true
+    },
+    {
+      "categorySlug": "hydration-ratios",
+      "question": "What does 1:1:1 feeding ratio mean?",
+      "slug": "what-does-1-1-1-ratio-mean",
+      "answer": "A 1:1:1 feeding ratio means 1 part starter, 1 part flour, and 1 part water by weight. So if you keep 50 g of starter, you add 50 g of flour and 50 g of water.\n\nThis is the most common everyday maintenance ratio. It gives the yeast and bacteria a moderate amount of food relative to their population, producing a peak somewhere between 4–8 hours at typical room temperatures (22–24 °C).",
+      "answerPlain": "1:1:1 means equal parts starter, flour, and water by weight. It is the standard maintenance ratio producing peak activity in 4–8 hours at room temperature.",
+      "order": 10,
+      "seoKeywords": ["1:1:1 feeding ratio", "sourdough feeding ratio explained", "starter ratio"],
+      "active": true
+    },
+    {
+      "categorySlug": "hydration-ratios",
+      "question": "What is hydration percentage and how do I calculate it for my starter?",
+      "slug": "starter-hydration-percentage",
+      "answer": "Hydration percentage is the ratio of water to flour in your starter, expressed as a percentage. Divide the weight of water by the weight of flour and multiply by 100.\n\nFor example, a starter fed with 50 g flour and 50 g water is 100% hydration (the most common style). Fed with 50 g flour and 35 g water it's 70% hydration — thicker and stiffer. A 125% hydration starter is quite liquid.\n\nHigher hydration starters ferment faster, are more active, and produce a more lactic (milder, yogurt-like) flavor profile. Stiffer starters ferment more slowly and can develop more acetic (sharper, vinegary) flavor.",
+      "answerPlain": "Hydration % = (water weight ÷ flour weight) × 100. 100% hydration (equal water and flour) is standard. Higher hydration ferments faster and tastes milder; stiffer starters are slower and more acidic.",
+      "order": 20,
+      "seoKeywords": ["starter hydration percentage", "sourdough hydration", "100% hydration starter"],
+      "active": true
+    },
+    {
+      "categorySlug": "hydration-ratios",
+      "question": "When should I use a high feeding ratio like 1:5:5?",
+      "slug": "when-to-use-high-feeding-ratio",
+      "answer": "A high feeding ratio like 1:5:5 or 1:10:10 is useful in a few situations:\n\n- **Warm weather** — when temperatures are high (28 °C+) the starter exhausts its food quickly. A larger food supply extends the peak window so you don't have to bake immediately.\n- **Overnight rise** — if you want the starter to peak by morning, a 1:5:5 feed in the evening in a cool kitchen (20–22 °C) will time the peak to roughly 8–10 hours later.\n- **Reviving a neglected starter** — more food dilutes excess acid and gives the yeast room to reestablish dominance.\n\nThe trade-off is a longer time to peak, so plan accordingly.",
+      "answerPlain": "Use a high ratio (1:5:5 or 1:10:10) in hot weather, for overnight timing, or when reviving a neglected starter. It extends the time to peak, so plan your baking schedule around it.",
+      "order": 30,
+      "seoKeywords": ["high feeding ratio starter", "1:5:5 starter", "sourdough feeding timing"],
+      "active": true
+    },
+    {
+      "categorySlug": "hydration-ratios",
+      "question": "What is a stiff starter, and why would I use one?",
+      "slug": "what-is-stiff-starter",
+      "answer": "A stiff starter (also called a lievito madre or pasta madre in Italian tradition) has a hydration of around 50–65% — it resembles firm dough rather than a batter. You knead it rather than stir it.\n\nStiff starters tend to ferment more slowly, produce milder acidity, and have a sweeter flavor profile. They're traditionally used for enriched breads and pastries like panettone and pandoro where a gentler, less acidic leavening is preferred. They're also more shelf-stable and forgiving of slightly longer gaps between feedings.",
+      "answerPlain": "A stiff starter (50–65% hydration) resembles firm dough, ferments slowly, tastes milder, and is used for enriched breads like panettone. It's more forgiving of irregular feeding schedules.",
+      "order": 40,
+      "seoKeywords": ["stiff starter", "lievito madre", "pasta madre", "low hydration starter"],
+      "active": true
+    },
+    {
+      "categorySlug": "baking-readiness",
+      "question": "How do I know when my starter is ready to use for baking?",
+      "slug": "how-to-know-starter-ready",
+      "answer": "Look for these signs that your starter is at peak and ready to use:\n\n- **Double or more in size** since feeding, with a domed or slightly convex top.\n- **Lots of bubbles** visible throughout the starter and on the surface.\n- **Pleasant sour-yeasty smell** — not overly alcoholic.\n- **Passes the float test** — a small spoonful dropped in water floats (though this is a supporting clue, not a definitive pass/fail).\n- **Jiggly and airy texture** when you gently shake the jar.\n\nThe precise peak timing varies with temperature and feeding ratio, so observing your own starter across a few cycles is the best way to learn its rhythm.",
+      "answerPlain": "Your starter is ready when it has doubled, is domed on top, full of bubbles, smells pleasantly sour, and passes the float test. Learn your starter's peak timing over a few cycles.",
+      "order": 10,
+      "seoKeywords": ["starter ready to bake", "peak sourdough starter", "float test"],
+      "active": true
+    },
+    {
+      "categorySlug": "baking-readiness",
+      "question": "What is the float test and is it reliable?",
+      "slug": "float-test-sourdough",
+      "answer": "The float test involves dropping a small spoonful of starter into a glass of water. If it floats, it contains enough trapped CO₂ gas to indicate active fermentation.\n\nIt is a useful quick check, but not 100% reliable. A starter can be at peak and fail the float test simply because it's a high-hydration starter (more water = denser). Conversely, a starter that's already past peak may still float if enough gas bubbles remain trapped. Use the float test as one signal among several, not as your sole indicator.",
+      "answerPlain": "The float test checks if starter floats in water, indicating active CO₂ production. It's a useful but imperfect guide — high-hydration starters may sink even when active. Use it alongside visual and smell cues.",
+      "order": 20,
+      "seoKeywords": ["float test sourdough", "float test reliable", "sourdough starter float"],
+      "active": true
+    },
+    {
+      "categorySlug": "baking-readiness",
+      "question": "Can I use my starter straight from the fridge without feeding it first?",
+      "slug": "use-starter-straight-from-fridge",
+      "answer": "You can, and some experienced bakers do it for convenience, but it's generally not recommended for best results. Cold, unfed starter has a lower population of active yeast and a higher acid load, which can slow fermentation and affect flavor.\n\nFor reliable baking, take the starter out of the fridge, give it one or two feedings at room temperature, and use it at peak. If you're in a hurry, even a single feed and a 4-hour wait at room temperature will improve the results significantly over using it cold.",
+      "answerPlain": "Technically you can use cold starter, but one or two room-temperature feedings before baking will produce better rise and flavor. If short on time, a single feed and 4-hour rest is a worthwhile minimum.",
+      "order": 30,
+      "seoKeywords": ["use starter from fridge", "cold starter baking", "no feed starter"],
+      "active": true
+    },
+    {
+      "categorySlug": "baking-readiness",
+      "question": "How do I build a levain, and how is it different from my starter?",
+      "slug": "what-is-levain",
+      "answer": "A levain (also called a preferment or build) is a smaller, recipe-specific portion of starter that you feed and grow separately just before baking. You use your main starter to inoculate it.\n\nThe difference is practical: your main starter is an ongoing culture you maintain indefinitely. A levain is a one-time build — tailored in hydration, flour type, and timing to suit a specific recipe — that you use entirely in the dough. This lets you keep your main starter on its usual maintenance schedule while customizing the fermentation profile of each bake.",
+      "answerPlain": "A levain is a recipe-specific build made from your starter. You use it entirely in the dough. Your main starter stays on its normal schedule; the levain is customized for each bake.",
+      "order": 40,
+      "seoKeywords": ["what is levain", "levain vs starter", "sourdough preferment", "sourdough build"],
+      "active": true
+    },
+    {
+      "categorySlug": "travel-and-breaks",
+      "question": "How do I care for my starter when I go on vacation?",
+      "slug": "starter-care-on-vacation",
+      "answer": "For trips up to 2 weeks, give the starter a fresh feeding, let it peak, then store it in the refrigerator. It will survive without attention for 1–2 weeks. Feed it once when you return and let it bounce back before baking.\n\nFor longer trips, dry or freeze the starter before leaving. Dried starter is more reliable than frozen and can be stored for over a year. Leave it with a trusted friend who bakes, or simply revive from dried flakes when you return.",
+      "answerPlain": "For trips under 2 weeks, refrigerate after a fresh feeding. For longer trips, dry or freeze the starter. Dried starter keeps over a year and is more reliable than frozen.",
+      "order": 10,
+      "seoKeywords": ["sourdough starter vacation", "leave starter while traveling", "starter break"],
+      "active": true
+    },
+    {
+      "categorySlug": "travel-and-breaks",
+      "question": "How do I take a sourdough starter on a flight?",
+      "slug": "fly-with-sourdough-starter",
+      "answer": "The easiest way is to dry a portion of your starter before you travel — dried flakes take up almost no space, weigh virtually nothing, and pass through security without issue. Revive at your destination following the standard dried-starter revival method.\n\nIf you want to bring active starter in a container, keep it in a small jar (under 100 ml / 3.4 oz to comply with TSA liquid rules in carry-on bags). A recently fed, early-fermentation starter produces less gas pressure; if you're worried about expansion, leave the lid loose and pack in a zip-lock bag. Checked luggage has no liquid limits but can experience pressure and temperature changes.",
+      "answerPlain": "Dry your starter before flying — it's the easiest and most reliable approach. For active starter as carry-on, keep it under 100 ml. Pack in a zip-lock bag in case of pressure expansion.",
+      "order": 20,
+      "seoKeywords": ["fly with sourdough starter", "travel with starter", "sourdough starter plane"],
+      "active": true
+    },
+    {
+      "categorySlug": "travel-and-breaks",
+      "question": "I haven't baked in months and ignored my starter — should I start over?",
+      "slug": "ignored-starter-months-start-over",
+      "answer": "Not necessarily. A starter that has been refrigerated and ignored for several months is often still alive, just very, very hungry. Before giving up:\n\n1. Check for any pink, orange, or fuzzy mold — if present, discard and start fresh.\n2. If it looks gray or brown with a lot of liquid (hooch) but no visible mold, it's probably fine.\n3. Discard all but a teaspoon, feed with fresh flour and water, and leave at room temperature.\n4. Repeat daily. If you see any bubbling within 5–7 days, keep going — it's reviving.\n\nA healthy wild yeast culture is surprisingly resilient.",
+      "answerPlain": "Check for mold first. If none, discard to a teaspoon, feed daily, and watch for bubbling within 5–7 days. A refrigerated starter ignored for months is often still alive and revivable.",
+      "order": 30,
+      "seoKeywords": ["neglected sourdough starter", "starter ignored months", "old starter revival"],
+      "active": true
+    }
+  ]
+}
