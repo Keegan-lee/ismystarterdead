@@ -1,0 +1,23 @@
+# Build artifacts
+.next/
+dist/
+build/
+out/
+coverage/
+.turbo/
+
+# Dependencies
+node_modules/
+.pnpm-store/
+.yarn/
+
+# Environment and secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Generated files
+.sanity/
+public/static/media/
+**/*.map
