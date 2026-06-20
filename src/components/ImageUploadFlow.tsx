@@ -1,8 +1,8 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
-interface ImageUploadFlowProps {
-  onComplete: (score: number, image?: File) => void;
+interface IImageUploadFlowProps {
+  onPhotoReady: (file: File) => void;
   onFallbackToQuestions: () => void;
 }
 
@@ -13,32 +13,40 @@ const ANALYSIS_STEPS = [
   'Evaluating starter health...',
 ];
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const ImageUploadFlow: React.FC<ImageUploadFlowProps> = ({ onComplete, onFallbackToQuestions }) => {
+const ImageUploadFlow: React.FC<IImageUploadFlowProps> = ({ onPhotoReady, onFallbackToQuestions }) => {
   const [preview, setPreview] = useState<string | null>(null);
   const [status, setStatus] = useState<'idle' | 'analyzing'>('idle');
   const [stepIdx, setStepIdx] = useState(0);
+  const fileRef = useRef<File | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     if (file) {
+      fileRef.current = file;
       setPreview(URL.createObjectURL(file));
       setStatus('analyzing');
+      setStepIdx(0);
     }
   };
 
   useEffect(() => {
     if (status !== 'analyzing') return;
     if (stepIdx < ANALYSIS_STEPS.length - 1) {
-      const t = setTimeout(() => setStepIdx(s => s + 1), 900);
-      return () => clearTimeout(t);
-    } else {
-      const t = setTimeout(() => {
-        onFallbackToQuestions();
-      }, 900);
+      const t = setTimeout(() => setStepIdx((s) => s + 1), 900);
       return () => clearTimeout(t);
     }
-  }, [status, stepIdx, onFallbackToQuestions]);
+
+    const t = setTimeout(() => {
+      const file = fileRef.current;
+      if (file) {
+        onPhotoReady(file);
+      } else {
+        onFallbackToQuestions();
+      }
+    }, 900);
+
+    return () => clearTimeout(t);
+  }, [status, stepIdx, onPhotoReady, onFallbackToQuestions]);
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center px-4 py-12">
@@ -46,7 +54,10 @@ const ImageUploadFlow: React.FC<ImageUploadFlowProps> = ({ onComplete, onFallbac
         <div className="text-center mb-8">
           <div className="text-4xl mb-3">📷</div>
           <h2 className="font-serif text-2xl font-bold text-blackish mb-2">Upload a photo of your starter</h2>
-          <p className="text-sm text-beaver">We&apos;ll scan it and ask a few quick follow-up questions to give you the most accurate diagnosis.</p>
+          <p className="text-sm text-beaver">
+            We&apos;ll scan it and ask a few quick follow-up questions to give you the most accurate
+            diagnosis.
+          </p>
         </div>
 
         {!preview && (
@@ -65,7 +76,10 @@ const ImageUploadFlow: React.FC<ImageUploadFlowProps> = ({ onComplete, onFallbac
             {status === 'analyzing' && (
               <div className="space-y-2">
                 {ANALYSIS_STEPS.map((step, i) => (
-                  <div key={i} className={`flex items-center gap-2 text-sm transition-opacity duration-500 ${i <= stepIdx ? 'opacity-100' : 'opacity-20'}`}>
+                  <div
+                    key={step}
+                    className={`flex items-center gap-2 text-sm transition-opacity duration-500 ${i <= stepIdx ? 'opacity-100' : 'opacity-20'}`}
+                  >
                     <span>{i < stepIdx ? '✅' : i === stepIdx ? '⏳' : '○'}</span>
                     <span className={i <= stepIdx ? 'text-blackish' : 'text-beaver'}>{step}</span>
                   </div>
