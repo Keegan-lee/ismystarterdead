@@ -6,6 +6,8 @@ import ImageUploadFlow from '@/components/ImageUploadFlow';
 import QuestionFlow from '@/components/QuestionFlow';
 import ResultScreen from '@/components/ResultScreen';
 import StartPage from '@/components/StartPage';
+import { StarterHealthAnalysisResultsDisplay } from '@/components/starter-health/StarterHealthAnalysisResultsDisplay/StarterHealthAnalysisResultsDisplay';
+import type { IStarterHealthAnalysis } from '@/lib/starterHealthAnalysis';
 import type { TProductCheckoutSummary } from '@/sanity/lib/types';
 
 export interface IHomeFlowProps {
@@ -13,22 +15,38 @@ export interface IHomeFlowProps {
   cheatSheetProduct: TProductCheckoutSummary | null;
 }
 
-type TFlow = 'start' | 'questions' | 'photo' | 'done';
+type TFlow = 'start' | 'questions' | 'photo' | 'photo-results' | 'done';
 
 export function HomeFlow({ revivalGuideProduct, cheatSheetProduct }: IHomeFlowProps) {
   const [flow, setFlow] = useState<TFlow>('start');
   const [finalScore, setFinalScore] = useState<number | null>(null);
   const [uploadedPhoto, setUploadedPhoto] = useState<File | null>(null);
+  const [photoAnalysis, setPhotoAnalysis] = useState<IStarterHealthAnalysis | null>(null);
 
-  const handleComplete = (score: number, image?: File) => {
+  const handleQuizComplete = (score: number, image?: File) => {
     setFinalScore(score);
     if (image) setUploadedPhoto(image);
+    setPhotoAnalysis(null);
     setFlow('done');
+  };
+
+  const handlePhotoAnalysisComplete = (analysis: IStarterHealthAnalysis, image: File) => {
+    setPhotoAnalysis(analysis);
+    setUploadedPhoto(image);
+    setFinalScore(null);
+    setFlow('photo-results');
+  };
+
+  const handlePhotoRetry = () => {
+    setPhotoAnalysis(null);
+    setUploadedPhoto(null);
+    setFlow('photo');
   };
 
   const handleRetry = () => {
     setFinalScore(null);
     setUploadedPhoto(null);
+    setPhotoAnalysis(null);
     setFlow('start');
   };
 
@@ -41,11 +59,18 @@ export function HomeFlow({ revivalGuideProduct, cheatSheetProduct }: IHomeFlowPr
           onPhotoStart={() => setFlow('photo')}
         />
       )}
-      {flow === 'questions' && <QuestionFlow onComplete={handleComplete} />}
+      {flow === 'questions' && <QuestionFlow onComplete={handleQuizComplete} />}
       {flow === 'photo' && (
         <ImageUploadFlow
-          onComplete={handleComplete}
+          onAnalysisComplete={handlePhotoAnalysisComplete}
           onFallbackToQuestions={() => setFlow('questions')}
+        />
+      )}
+      {flow === 'photo-results' && photoAnalysis && (
+        <StarterHealthAnalysisResultsDisplay
+          analysis={photoAnalysis}
+          image={uploadedPhoto}
+          onTryAgain={handlePhotoRetry}
         />
       )}
       {flow === 'done' && finalScore !== null && (
