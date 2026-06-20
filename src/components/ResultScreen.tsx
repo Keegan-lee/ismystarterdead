@@ -265,8 +265,14 @@ const ResultScreen: React.FC<IResultScreenProps> = ({
         <div className="card text-center">
           <p className="text-2xl mb-2">🖼️</p>
           <h3 className="font-serif font-bold text-blackish mb-1">See the Starter Gallery</h3>
-          <p className="text-xs text-beaver mb-3">Compare your starter to hundreds of real photos from the community — healthy, struggling, and everything in between.</p>
-          <a href="/gallery" className="btn-secondary text-xs inline-block">Browse the Gallery →</a>
+          <p className="text-xs text-beaver mb-3">
+            {image
+              ? 'Your analyzed photo is being added to the gallery. Browse other starters while you wait.'
+              : 'Compare your starter to real photos from the community — healthy, struggling, and everything in between.'}
+          </p>
+          <a href="/gallery" className="btn-secondary text-xs inline-block">
+            Browse the Gallery →
+          </a>
         </div>
 
         {/* Retry */}

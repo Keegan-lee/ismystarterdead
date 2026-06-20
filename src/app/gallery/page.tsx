@@ -1,76 +1,68 @@
-import React from 'react';
 import Link from 'next/link';
+import type { Metadata } from 'next';
 
-const GALLERY_ITEMS = [
-  { label: 'Thriving', emoji: '🎉', color: 'bg-green-50 border-green-200', desc: 'Doubled in 6h, lots of bubbles, domed top', tag: 'Alive' },
-  { label: 'Needs Love', emoji: '🤔', color: 'bg-amber-50 border-amber-200', desc: 'Some bubbles, slight rise, hooch on top', tag: 'Needs Love' },
-  { label: 'At Risk', emoji: '🛠️', color: 'bg-yellow-50 border-yellow-200', desc: 'Flat, watery, no bubbles after 24h', tag: 'At Risk' },
-  { label: 'Likely Dead', emoji: '😢', color: 'bg-orange-50 border-orange-200', desc: 'No activity for 5+ days, foul smell', tag: 'Likely Dead' },
-  { label: 'Contaminated', emoji: '🚫', color: 'bg-red-50 border-red-200', desc: 'Pink/orange tint, fuzzy mold patches visible', tag: 'Contaminated' },
-  { label: 'Thriving', emoji: '🎉', color: 'bg-green-50 border-green-200', desc: 'Fed with rye flour, tripled in 4h', tag: 'Alive' },
-  { label: 'Needs Love', emoji: '🤔', color: 'bg-amber-50 border-amber-200', desc: 'Stored in fridge 2 weeks, slow to wake up', tag: 'Needs Love' },
-  { label: 'At Risk', emoji: '🛠️', color: 'bg-yellow-50 border-yellow-200', desc: 'Changed to tap water, activity dropped', tag: 'At Risk' },
-  { label: 'Thriving', emoji: '🎉', color: 'bg-green-50 border-green-200', desc: 'Warm kitchen, 100% hydration, very active', tag: 'Alive' },
-];
+import { GalleryView } from '@/components/gallery/GalleryView/GalleryView';
+import { toCanonicalUrl } from '@/lib/seo/canonical';
+import { getGalleryItems } from '@/sanity/lib/queries';
 
-const TAG_COLORS: Record<string, string> = {
-  'Alive': 'bg-green-100 text-green-800',
-  'Needs Love': 'bg-amber-100 text-amber-800',
-  'At Risk': 'bg-yellow-100 text-yellow-800',
-  'Likely Dead': 'bg-orange-100 text-orange-800',
-  'Contaminated': 'bg-red-100 text-red-800',
+const GALLERY_DESCRIPTION =
+  'Browse real sourdough starter photos from the community — healthy, struggling, and dead. Compare yours and learn what each stage looks like.';
+
+const GALLERY_CANONICAL = toCanonicalUrl('/gallery');
+
+export const revalidate = 0;
+
+export const metadata: Metadata = {
+  title: 'Starter Gallery',
+  description: GALLERY_DESCRIPTION,
+  alternates: { canonical: GALLERY_CANONICAL },
+  openGraph: {
+    title: 'Starter Gallery',
+    description: GALLERY_DESCRIPTION,
+    url: GALLERY_CANONICAL,
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Starter Gallery',
+    description: GALLERY_DESCRIPTION,
+  },
 };
 
-export default function GalleryPage() {
+export default async function GalleryPage() {
+  const items = await getGalleryItems();
+
   return (
-    <div className="max-w-2xl mx-auto px-4 py-10">
-        <div className="text-center mb-8">
-          <h1 className="font-serif text-3xl font-bold text-blackish mb-2">Starter Gallery</h1>
-          <p className="text-beaver text-sm">Real examples of healthy, struggling, and dead starters. Use these to compare with your own.</p>
-        </div>
+    <main className="mx-auto w-full max-w-5xl px-4 py-10">
+      <header className="mb-8 text-center">
+        <h1 className="mb-2 font-serif text-3xl font-bold text-blackish">Starter Gallery</h1>
+        <p className="mx-auto max-w-md text-sm text-beaver">
+          Real photos from analyzed starters — healthy, struggling, and dead. Filter and compare with
+          your own.
+        </p>
+      </header>
 
-        {/* Filter hint */}
-        <div className="flex flex-wrap gap-2 justify-center mb-6">
-          {Object.entries(TAG_COLORS).map(([tag, cls]) => (
-            <span key={tag} className={`text-xs px-2.5 py-1 rounded-full font-medium ${cls}`}>{tag}</span>
-          ))}
-        </div>
+      <GalleryView items={items} />
 
-        {/* Gallery grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
-          {GALLERY_ITEMS.map((item, i) => (
-            <div key={i} className={`rounded-2xl border-2 ${item.color} p-5 flex gap-4 items-start`}>
-              <div className="text-4xl">{item.emoji}</div>
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="font-serif font-bold text-blackish text-sm">{item.label}</span>
-                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${TAG_COLORS[item.tag]}`}>{item.tag}</span>
-                </div>
-                <p className="text-xs text-beaver">{item.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+      <div className="card mt-10 border-2 border-dashed border-crust text-center">
+        <p className="text-2xl mb-2" aria-hidden="true">
+          📸
+        </p>
+        <h2 className="font-serif font-bold text-blackish mb-1">Add your starter</h2>
+        <p className="text-xs text-beaver mb-4">
+          Upload a photo on the diagnostic page — successful analyses are added to the gallery
+          automatically.
+        </p>
+        <Link href="/" className="btn-primary text-xs inline-block">
+          Check your starter →
+        </Link>
+      </div>
 
-        {/* Submit CTA */}
-        <div className="card text-center border-2 border-dashed border-crust">
-          <p className="text-2xl mb-2">📸</p>
-          <h3 className="font-serif font-bold text-blackish mb-1">Submit your starter photo</h3>
-          <p className="text-xs text-beaver mb-4">Help other bakers by sharing what your starter looks like — healthy or not. Community submissions are reviewed before posting.</p>
-          <a
-            href="mailto:support@palwefrancis.com?subject=Gallery Submission"
-            className="btn-primary text-xs inline-block"
-          >
-            Submit via Email →
-          </a>
-        </div>
-
-        {/* Back to diagnostic */}
-        <div className="text-center mt-8">
-          <Link href="/" className="text-sm text-beaver hover:text-umber transition-colors underline">
-            ← Check your own starter
-          </Link>
-        </div>
-    </div>
+      <div className="mt-8 text-center">
+        <Link href="/" className="text-sm text-beaver hover:text-umber transition-colors underline">
+          ← Check your own starter
+        </Link>
+      </div>
+    </main>
   );
 }

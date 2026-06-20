@@ -1,5 +1,7 @@
 import type { PortableTextBlock } from '@portabletext/types';
 
+import type { StarterResult } from '@/lib/evaluateScore';
+
 export interface ISanityImageAssetRef {
   asset?: {
     _ref: string;
@@ -106,4 +108,24 @@ export interface IFaqItem {
   seoKeywords?: string[];
   active?: boolean;
   category: TFaqItemCategoryRef;
+}
+
+/** Filter buckets shown on the public gallery page. */
+export type TGalleryFilterGroup = 'all' | 'healthy' | 'struggling' | 'dead';
+
+export type TGallerySort = 'date' | 'score';
+
+/**
+ * A starter photo submitted after a successful diagnostic analysis.
+ * Stored in Sanity with the image served from the Sanity CDN.
+ */
+export interface IGalleryItem {
+  _id: string;
+  image: ISanityImageAssetRef;
+  score: number;
+  status: StarterResult['status'];
+  userLabel?: string;
+  submittedAt: string;
+  slug: string;
+  active?: boolean;
 }

@@ -5,6 +5,7 @@ import type {
   IAffiliateOffer,
   IFaqCategory,
   IFaqItem,
+  IGalleryItem,
   IProduct,
   IProductForCheckout,
 } from './types';
@@ -164,5 +165,44 @@ export async function getProductForCheckoutById(productId: string): Promise<IPro
     }`,
     { productId },
     { cache: 'no-store' },
+  );
+}
+
+const galleryItemProjection = groq`{
+  _id,
+  image,
+  score,
+  status,
+  userLabel,
+  submittedAt,
+  "slug": slug.current,
+  active
+}`;
+
+/** Active gallery items, newest first. Fresh data so new submissions appear quickly. */
+export async function getGalleryItems(): Promise<IGalleryItem[]> {
+  return sanityClient.fetch(
+    groq`*[
+      _type == "galleryItem" &&
+      (active == true || !defined(active)) &&
+      !(_id in path("drafts.**")) &&
+      defined(slug.current)
+    ] | order(submittedAt desc) ${galleryItemProjection}`,
+    {},
+    { next: { revalidate: 0 } },
+  );
+}
+
+/** Single gallery item by slug for the detail page. */
+export async function getGalleryItemBySlug(slug: string): Promise<IGalleryItem | null> {
+  return sanityClient.fetch(
+    groq`*[
+      _type == "galleryItem" &&
+      slug.current == $slug &&
+      (active == true || !defined(active)) &&
+      !(_id in path("drafts.**"))
+    ][0] ${galleryItemProjection}`,
+    { slug },
+    { next: { revalidate: 0 } },
   );
 }
